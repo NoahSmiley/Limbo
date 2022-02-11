@@ -1,5 +1,6 @@
 import Inactive from "../components/Results/Inactive";
+import LayOut from "../components/Base/LayOut";
 const HomePage = () => {
-  return <Inactive />;
+  return <LayOut><Inactive /></LayOut>;
 };
 export default HomePage;

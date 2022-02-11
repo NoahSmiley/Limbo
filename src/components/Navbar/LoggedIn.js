@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 
 const LoggedIn = () => {
   return (
-    <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+    <Menu theme="dark" defaultSelectedKeys={["1"]}  mode="inline">
       <Menu.Item key="1" icon={<CalculatorOutlined />}>
         Mining
         <Link to="/hashing" />

@@ -3,9 +3,7 @@ import SignUpForm from "../components/Form/SignUpForm";
 const SignUp = () => {
   return (
     <LayOut title={"Sign Up"}>
-      <div >
-        <SignUpForm />
-      </div>
+      <SignUpForm />
     </LayOut>
   );
 };

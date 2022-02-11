@@ -11,8 +11,8 @@ import {
   InputNumber,
   TreeSelect,
   Switch,
+  Button,
 } from "antd";
-import { Button } from "@mui/material"
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { TextField } from "@mui/material";
 
@@ -32,38 +32,63 @@ const LoginForm = () => {
   });
 
   return (
-    <Form
-      labelCol={{
-        span: 5,
+    <div
+      style={{
+        textAlign: "center",
+        display: "inline-block",
+        marginBottom:"13%",
       }}
-      wrapperCol={{
-        span: 14,
-      }}
-      layout="vertical"
-      initialValues={{
-        size: componentSize,
-      }}
-      onValuesChange={onFormLayoutChange}
-      size={componentSize}
     >
-      <Form.Item label="Email Address">
-        <Input type="email" placeholder="Email Address" />
-      </Form.Item>
-      <Form.Item label="Password">
-        <Input.Password
-          placeholder="Password"
-          iconRender={(visible) =>
-            visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-          }
-        />
-      </Form.Item>
-      <Button
-        type="primary"
-        style={{ marginRight: "45%", marginTop: "5%", marginBottom: "10%" }}
+      <Form
+        wrapperCol={{
+          span:30,
+        }}
+        align="center"
+        layout="vertical"
+        onFinish={formik.handleSubmit}
       >
-        Login
-      </Button>
-    </Form>
+        <div style={{ backGround: "White" }}>
+          <Form.Item
+          style={{textAlign: "left"}}
+            label="Username"
+            validateStatus={
+              formik.errors.username && formik.touched.username
+                ? "error"
+                : "null"
+            }
+          >
+            <Input
+              id="username"
+              value={formik.username}
+              placeholder="Username"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </Form.Item>
+          <Form.Item label="Password">
+            <Input.Password
+              id="password"
+              
+              value={formik.password}
+              placeholder="Password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              iconRender={(visible) =>
+                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              }
+            />
+          </Form.Item>
+          <br/>
+          <Button
+            type="primary"
+            disabled={formik.errors.username}
+            htmlType="submit"
+          >
+            Connect Node
+          </Button>
+        </div>
+      </Form>
+    </div>
   );
 };
 export default LoginForm;
