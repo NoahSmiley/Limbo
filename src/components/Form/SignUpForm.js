@@ -1,31 +1,13 @@
 import React, { useState } from "react";
-import {
-  Form,
-  Input,
-  Radio,
-  Select,
-  Cascader,
-  DatePicker,
-  InputNumber,
-  TreeSelect,
-  Switch,
-  Button,
-} from "antd";
-import { Link } from "react-router-dom";
+import { Form, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-// import { Button } from "@mui/material";
 import * as Yup from "yup";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import FormList from "antd/lib/form/FormList";
 import { useDispatch } from "react-redux";
 import { navBarActions } from "../../store/store";
-const SignUpForm = () => {
-  const [componentSize, setComponentSize] = useState("default");
 
-  const onFormLayoutChange = ({ size }) => {
-    setComponentSize(size);
-  };
+const SignUpForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const formik = useFormik({
@@ -37,34 +19,49 @@ const SignUpForm = () => {
     },
     onSubmit: (value) => {
       console.log(value);
-      <Link to="/"></Link>;
       navigate("/");
       dispatch(navBarActions.changeNav("loggedin"));
     },
     validationSchema: Yup.object({
       username: Yup.string().required(),
+      password: Yup.string().required(),
+      passtwo: Yup.string()
+        .required()
+        .oneOf([Yup.ref("password"), null], "Passwords must match"),
+      api: Yup.string().required().url(),
     }),
   });
 
   return (
-    <div  style={{ textAlign:"center",display:"inline-block",marginBottom:"13%"}}>
+    <div
+      style={{
+        textAlign: "center",
+        display: "inline-block",
+        marginBottom: "13%",
+      }}
+    >
       <Form
         wrapperCol={{
           span: 30,
         }}
         align="center"
-        style={{ textAlign:"center" }}
+        style={{ textAlign: "center" }}
         layout="vertical"
         onFinish={formik.handleSubmit}
       >
         <div style={{ backGround: "White" }}>
           <Form.Item
-          
             label="Username"
+            required
             validateStatus={
-              formik.errors.username && formik.touched.username
-                ? "error"
-                : "null"
+              (formik.errors.username && formik.touched.username && "error") ||
+              (!formik.errors.username && formik.touched.username && "success")
+            }
+            hasFeedback
+            help={
+              formik.errors.username &&
+              formik.touched.username &&
+              "Username Required"
             }
           >
             <Input
@@ -75,7 +72,21 @@ const SignUpForm = () => {
               onBlur={formik.handleBlur}
             />
           </Form.Item>
-          <Form.Item label="Password">
+
+          <Form.Item
+            label="Password"
+            validateStatus={
+              (formik.errors.password && formik.touched.password && "error") ||
+              (!formik.errors.password && formik.touched.password && "success")
+            }
+            hasFeedback
+            required
+            help={
+              formik.errors.password &&
+              formik.touched.password &&
+              "Password Required"
+            }
+          >
             <Input.Password
               id="password"
               value={formik.password}
@@ -87,7 +98,20 @@ const SignUpForm = () => {
               }
             />
           </Form.Item>
-          <Form.Item label="Password Again">
+          <Form.Item
+            label="Confirm Password"
+            required
+            validateStatus={
+              (formik.errors.passtwo && formik.touched.passtwo && "error") ||
+              (!formik.errors.passtwo && formik.touched.passtwo && "success")
+            }
+            hasFeedback
+            help={
+              formik.errors.passtwo &&
+              formik.touched.passtwo &&
+              "Passwords Must Match."
+            }
+          >
             <Input.Password
               id="passtwo"
               value={formik.passtwo}
@@ -100,12 +124,17 @@ const SignUpForm = () => {
             />
           </Form.Item>
           <Form.Item
+            required
+            validateStatus={
+              (formik.errors.api && formik.touched.api && "error") ||
+              (!formik.errors.api && formik.touched.api && "success")
+            }
+            hasFeedback
             style={{ textAlign: "left" }}
             label="API Link"
             help="https://example-be16f-default-rtdb.firebaseio.com/"
           >
             <Input
-            
               id="api"
               placeholder="API Link (https://example.firebaseio.com/)"
               value={formik.api}
@@ -113,7 +142,8 @@ const SignUpForm = () => {
               onChange={formik.handleChange}
             />
           </Form.Item>
-              <br></br><br />
+          <br></br>
+          <br />
           <Button
             type="primary"
             disabled={formik.errors.username}

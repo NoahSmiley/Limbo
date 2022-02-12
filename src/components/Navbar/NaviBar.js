@@ -54,11 +54,11 @@ const NaviBar = (props) => {
           >
             {collapsed ? (
               <p>
-                <b>Mevo</b>
+                <b>Limbo</b>
               </p>
             ) : (
               <p>
-                <b>Mevo</b>Node
+                <b>Limbo</b>Node
               </p>
             )}
           </div>
@@ -78,7 +78,7 @@ const NaviBar = (props) => {
             {props.children}
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
+        <Footer style={{marginLeft:"100px"}} >
           Ant Design ©2018 Created by Ant UED
         </Footer>
       </Layout>

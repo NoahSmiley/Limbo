@@ -1,34 +1,29 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  Form,
-  Input,
-  Radio,
-  Select,
-  Cascader,
-  DatePicker,
-  InputNumber,
-  TreeSelect,
-  Switch,
-  Button,
-} from "antd";
+import { Form, Input, Button } from "antd";
+import { navBarActions } from "../../store/store";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { TextField } from "@mui/material";
 
 const LoginForm = () => {
-  const [componentSize, setComponentSize] = useState("default");
-
-  const onFormLayoutChange = ({ size }) => {
-    setComponentSize(size);
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      email: "",
-      pw: "",
-      pw2: "",
-      api: "",
+      username: "",
+      password: "",
     },
+    onSubmit: (value) => {
+      console.log(value);
+      navigate("/");
+      dispatch(navBarActions.changeNav("loggedin"));
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required(),
+      password: Yup.string().required(),
+    }),
   });
 
   return (
@@ -36,12 +31,12 @@ const LoginForm = () => {
       style={{
         textAlign: "center",
         display: "inline-block",
-        marginBottom:"13%",
+        marginBottom: "13%",
       }}
     >
       <Form
         wrapperCol={{
-          span:30,
+          span: 30,
         }}
         align="center"
         layout="vertical"
@@ -49,12 +44,18 @@ const LoginForm = () => {
       >
         <div style={{ backGround: "White" }}>
           <Form.Item
-          style={{textAlign: "left"}}
+            style={{ textAlign: "center" }}
             label="Username"
+            required
             validateStatus={
-              formik.errors.username && formik.touched.username
-                ? "error"
-                : "null"
+              (formik.errors.username && formik.touched.username && "error") ||
+              (!formik.errors.username && formik.touched.username && "success")
+            }
+            hasFeedback
+            help={
+              formik.errors.username &&
+              formik.touched.username &&
+              "Username Required"
             }
           >
             <Input
@@ -65,10 +66,22 @@ const LoginForm = () => {
               onBlur={formik.handleBlur}
             />
           </Form.Item>
-          <Form.Item label="Password">
+          <Form.Item
+            label="Password"
+            validateStatus={
+              (formik.errors.password && formik.touched.password && "error") ||
+              (!formik.errors.password && formik.touched.password && "success")
+            }
+            hasFeedback
+            required
+            help={
+              formik.errors.password &&
+              formik.touched.password &&
+              "Password Required"
+            }
+          >
             <Input.Password
               id="password"
-              
               value={formik.password}
               placeholder="Password"
               onChange={formik.handleChange}
@@ -78,10 +91,10 @@ const LoginForm = () => {
               }
             />
           </Form.Item>
-          <br/>
+          <br />
           <Button
             type="primary"
-            disabled={formik.errors.username}
+            disabled={formik.errors.username || formik.errors.password}
             htmlType="submit"
           >
             Connect Node

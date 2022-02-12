@@ -9,7 +9,7 @@ const Inactive = () => {
     >
       <Result
         title="Your Node is Currently Not Connected."
-        subTitle="Lets change that, Login or Signup to Connect Node."
+        subTitle="Lets change that, Login or Sign Up to Connect Node."
       />
     </div>
   );
