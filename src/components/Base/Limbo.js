@@ -12,6 +12,7 @@ const Limbo = () => {
   return (
     <Fragment>
       <div>
+        <p>Hello world</p>
         <NaviBar>
           <Routes>
             <Route path="/signup" element={<SignUp />} />
