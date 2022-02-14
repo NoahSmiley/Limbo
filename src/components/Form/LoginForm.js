@@ -17,7 +17,7 @@ const LoginForm = () => {
     },
     onSubmit: (value) => {
       console.log(value);
-      navigate("/");
+      navigate("/connected");
       dispatch(navBarActions.changeNav("loggedin"));
     },
     validationSchema: Yup.object({

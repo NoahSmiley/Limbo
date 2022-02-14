@@ -79,35 +79,10 @@ const NaviBar = (props) => {
           </div>
         </Content>
         <Footer style={{marginLeft:"100px"}} >
-          Ant Design ©2018 Created by Ant UED
+          Limbo ©2022 Created by Limbo Team
         </Footer>
       </Layout>
     </Layout>
   );
 };
 export default NaviBar;
-/* <Layout style={{ minHeight: "100vh", textAlign: "center" }}>
-<Sider
-  collapsible
-  collapsed={collapsed}
-  style={{ position: "fixed", paddingBottom: "100%" }}
-  onCollapse={onCollapse}
->
-  <div
-    className="logo"
-    style={{ textDecoration: "none", textAlign: "center" }}
-  >
-    {collapsed ? (
-      <p>
-        <b>Mevo</b>
-      </p>
-    ) : (
-      <p>
-        <b>Mevo</b>Node
-      </p>
-    )}
-  </div>
-  {navStatus == "login" ? <SignInLogin /> : <LoggedIn />}
-</Sider>
-{props.children}
-</Layout> */
