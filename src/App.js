@@ -1,10 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
-import Limbo from './components/Base/Limbo';
+import { useState, useEffect } from "react";
+
+import "./App.css";
+import Limbo from "./components/Base/Limbo";
 function App() {
+  // useEffect(() => {
+  // }, []);
   return (
     <div className="App">
-      <Limbo/>
+      <Limbo />
     </div>
   );
 }

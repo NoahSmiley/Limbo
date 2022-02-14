@@ -4,11 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { navBarActions } from "../../store/store";
+import { getBlockChain } from "../../store/store";
+import { PoweroffOutlined } from "@ant-design/icons";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
+  const trustedUser = useSelector((state) => state.navbar.trustedUser);
+  const blockChain = useSelector((state) => state.navbar.blockChain);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -18,9 +22,17 @@ const SignUpForm = () => {
       api: "",
     },
     onSubmit: (value) => {
-      console.log(value);
-      navigate("/");
-      dispatch(navBarActions.changeNav("loggedin"));
+      if (blockChain !== "initial") {
+        dispatch(
+          navBarActions.initDatabase({
+            username: value.username,
+            password: value.password,
+            api: value.api,
+          })
+        );
+        dispatch(navBarActions.changeNav("loggedin"));
+        navigate("/connected");
+      }
     },
     validationSchema: Yup.object({
       username: Yup.string().required(),
@@ -148,6 +160,7 @@ const SignUpForm = () => {
             type="primary"
             disabled={formik.errors.username}
             htmlType="submit"
+            onClick={dispatch(getBlockChain(trustedUser))}
           >
             Join the BlockChain
           </Button>

@@ -59,7 +59,7 @@ const NaviBar = (props) => {
         >
           <div
             className="site-layout-background"
-            style={{ padding: 24, textAlign: "center", paddingTop: "10%" }}
+            style={{ padding: 24, textAlign: "center", paddingTop: "15%" }}
           >
             {props.children}
           </div>
