@@ -6,7 +6,6 @@ import {
   UserDeleteOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
-import { Fragment } from "react";
 import { Link } from "react-router-dom";
 
 const LoggedIn = () => {
@@ -36,14 +35,3 @@ const LoggedIn = () => {
 };
 export default LoggedIn;
 
-{
-  /* <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-<Menu.Item key="3">Account Info</Menu.Item>
-<Menu.Item key="4">Bill</Menu.Item>
-<Menu.Item key="5">Alex</Menu.Item>
-</SubMenu>
-<SubMenu key="sub2" icon={<TeamOutlined />} title="Account">
-<Menu.Item key="6">Account</Menu.Item>
-<Menu.Item key="8">Team 2</Menu.Item>
-</SubMenu> */
-}

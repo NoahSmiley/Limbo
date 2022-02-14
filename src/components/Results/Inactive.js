@@ -1,6 +1,5 @@
 import React from "react";
-import { Result, Button } from "antd";
-import { Link } from "react-router-dom";
+import { Result} from "antd";
 const Inactive = () => {
   return (
     <div

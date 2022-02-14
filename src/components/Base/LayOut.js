@@ -1,9 +1,9 @@
 import React from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout} from "antd";
 
-import "./anta.css";
+import "./LayOut.css";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content} = Layout;
 const LayOut = (props) => {
   return (
     <Layout className="site-layout" >
@@ -11,7 +11,6 @@ const LayOut = (props) => {
           <b>{props.title}</b>
       </Header>
       <Content style={{ background: "white"}}
-        // style={{ marginLeft: "40%", marginTop: "10%" }}
       >
         {props.children}
       </Content>
