@@ -103,12 +103,13 @@ const Hash = () => {
   }, [hash, mineState, proofOfWork, setFinisedTimer, solved, message]);
 
   return (
-    <div className="App" style={{marginTop:"-10%"}}>
+    <div className="App" style={{ marginTop: "-10%" }}>
       <p>
         <b>Hash</b>Lab
       </p>
 
       <BigBoi val={hash} zeros={zeros} onSolve={solvedHandler} />
+
       <p>Proof of Work: {proofOfWork}</p>
       <form>
         <label for="message">Message</label>

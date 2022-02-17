@@ -1,22 +1,47 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import * as cryptico from "cryptico-js/dist/cryptico.browser.js";
-import { create } from "yup/lib/array";
-
 const navbar = createSlice({
   name: "navbar",
   initialState: {
     navType: "login",
     trustedUser: "https://noahnode-62cc0-default-rtdb.firebaseio.com/.json",
     blockChain: "initial",
+    transaction: {},
+    api: "",
+    limboFull: false,
   },
   reducers: {
     changeNav(state, action) {
       state.navType = action.payload;
     },
-
     setBlockChain(state, action) {
       state.blockChain = action.payload;
+    },
+
+    checkLimbo(state, action) {
+      const updateLimbo = async () => {
+        const response = await fetch(`${state.api}.json`);
+        const data = await response.json();
+        if (data.limbo !== {}) {
+          state.limboFull = true;
+        }
+      };
+      updateLimbo();
+    },
+    limboTransaction(state, action) {
+      const postData = async () => {
+        const response = await fetch(state.trustedUser, {
+          method: "PUT",
+          body: JSON.stringify({
+            limbo: state.transaction,
+            blockChain: state.blockChain,
+          }),
+        });
+        const data = await response.json();
+        console.log(data);
+      };
+      postData();
     },
 
     initDatabase(state, action) {
@@ -37,15 +62,23 @@ const navbar = createSlice({
       );
       console.log("Decrypted Message", DecryptionResult);
 
+      state.transaction = {
+        username: action.payload.username,
+        publicKey: PublicKey,
+        action: "signup",
+      };
+      state.api = action.payload.api;
+
       const postData = async () => {
         const response = await fetch(`${action.payload.api}.json`, {
           method: "PUT",
           body: JSON.stringify({
             username: action.payload.username,
-            limbo: ["create"],
+            limbo: state.transaction,
             publicKey: PublicKey,
             trustedUsers: state.trustedUsers,
             blockChain: state.blockChain,
+            credits:0
           }),
         });
       };
@@ -61,6 +94,8 @@ const navbar = createSlice({
       //       }),
       //     }
       //   );
+      // };
+
       {
         state.blockChain !== [] && postData();
       }
@@ -78,6 +113,7 @@ const loading = createSlice({
     },
   },
 });
+
 export const getBlockChain = (api) => {
   return async (dispatch) => {
     const getData = async () => {

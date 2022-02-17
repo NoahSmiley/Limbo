@@ -7,7 +7,7 @@ import {
   List,
   Divider,
   Typography,
-  Descriptions
+  Descriptions,
 } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 
@@ -35,7 +35,7 @@ const MainStats = () => {
         <Card>
           <Statistic
             title="Credit Increase"
-            value={11.28}
+            value={0}
             precision={2}
             valueStyle={{ color: "#3f8600" }}
             prefix={<ArrowUpOutlined />}
@@ -47,7 +47,7 @@ const MainStats = () => {
         <Card>
           <Statistic
             title="Current Hash Rate"
-            value={4}
+            value={10}
             precision={2}
             valueStyle={{ color: "#cf1322" }}
             prefix={<ArrowDownOutlined />}
@@ -58,7 +58,7 @@ const MainStats = () => {
       <Divider orientation="left">Block Ledger:</Divider>
       <List
         size="large"
-        style={{textAlign:"left"}}
+        style={{ textAlign: "left" }}
         header={<div>Transactions:</div>}
         footer={<div>Footer</div>}
         bordered
@@ -69,9 +69,7 @@ const MainStats = () => {
               <Descriptions.Item label="UserName">
                 Zhou Maomao
               </Descriptions.Item>
-              <Descriptions.Item label="Action">
-                Post
-              </Descriptions.Item>
+              <Descriptions.Item label="Action">Post</Descriptions.Item>
               <Descriptions.Item label="Live">
                 Hangzhou, Zhejiang
               </Descriptions.Item>

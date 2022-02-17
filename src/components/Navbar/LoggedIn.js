@@ -34,19 +34,16 @@ const LoggedIn = () => {
         }
       >
         Mining
-        <Link to="/blockchain" />
+        <Link to="/mining" />
       </Menu.Item>
 
-      <Menu.Item key="7" icon={<ToTopOutlined />}>
-        Post
-        <Link to="/post" />
-      </Menu.Item>
       <Menu.Item key="6" icon={<BlockOutlined />}>
         Feed
         <Link to="/feed" />
       </Menu.Item>
       <Menu.Item key="3" icon={<TeamOutlined />}>
         Account
+        <Link to="/account" />
       </Menu.Item>
       <Menu.Item key="8" icon={<ExperimentOutlined />}>
         Hash Lab

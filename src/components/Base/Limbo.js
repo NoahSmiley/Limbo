@@ -10,24 +10,25 @@ import SignOut from "../../pages/connected/SignOut";
 import Docs from "../../pages/connected/Docs";
 import { useDispatch, useSelector } from "react-redux";
 import { getBlockChain } from "../../store/store";
-import PostPage from "../../pages/connected/PostPage";
 import Feed from "../../pages/connected/Feed";
 import HashLab from "../../pages/connected/HashLab";
-
+import Account from "../../pages/connected/Account";
+import Mining from "../../pages/connected/Mining";
 const Limbo = () => {
   return (
     <Fragment>
       <div>
         <NaviBar>
           <Routes>
+            <Route path="/account" element={<Account />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signout" element={<SignOut />} />
             <Route path="/" element={<HomePage />} />
+            <Route path="/mining" element={<Mining/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/connected" element={<Connected />} />
             <Route path="/docs" element={<Docs />} />
             <Route path="/feed" element={<Feed />} />
-            <Route path="/post" element={<PostPage />} />
             <Route path="/lab" element={<HashLab />} />
           </Routes>
         </NaviBar>

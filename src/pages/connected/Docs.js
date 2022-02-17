@@ -15,7 +15,7 @@ const Docs = () => {
           type="inner"
           title="Inner Card title"
         >
-          Inner Card content
+          <pre>Hello</pre>
         </Card>
       </Card>
       ,

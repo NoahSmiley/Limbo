@@ -30,6 +30,7 @@ const SignUpForm = () => {
             api: value.api,
           })
         );
+        dispatch(navBarActions.limboTransaction());
         dispatch(navBarActions.changeNav("loggedin"));
         navigate("/connected");
       }
