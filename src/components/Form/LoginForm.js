@@ -6,24 +6,26 @@ import { navBarActions } from "../../store/store";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-
+import { getBlockChain } from "../../store/store";
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
+      api:""
     },
     onSubmit: (value) => {
-      console.log(value);
       navigate("/connected");
+      dispatch(navBarActions.setAPI(value.api))
       dispatch(navBarActions.changeNav("loggedin"));
     },
     validationSchema: Yup.object({
       username: Yup.string().required(),
       password: Yup.string().required(),
+      api: Yup.string().required().url(),
     }),
   });
 
@@ -91,6 +93,27 @@ const LoginForm = () => {
                 visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
               }
             />
+            <br />
+            <br />
+            <Form.Item
+              required
+              validateStatus={
+                (formik.errors.api && formik.touched.api && "error") ||
+                (!formik.errors.api && formik.touched.api && "success")
+              }
+              hasFeedback
+              style={{ textAlign: "left" }}
+              label="API Link"
+              help="https://example-be16f-default-rtdb.firebaseio.com/"
+            >
+              <Input
+                id="api"
+                placeholder="API Link (https://example.firebaseio.com/)"
+                value={formik.api}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+              />
+            </Form.Item>
           </Form.Item>
           <br />
           <Button

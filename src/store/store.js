@@ -10,24 +10,33 @@ const navbar = createSlice({
     transaction: {},
     api: "",
     limboFull: false,
+    limbo: "empty",
   },
   reducers: {
+    setAPI(state, action) {
+      state.api = action.payload+".json";
+    },
     changeNav(state, action) {
       state.navType = action.payload;
     },
     setBlockChain(state, action) {
       state.blockChain = action.payload;
     },
-
+    setLimboFull(state, action) {
+      state.limboFull = action.payload;
+    },
+    setLimbo(state, action) {
+      state.limbo = action.payload;
+      console.log(action.payload);
+      if (state.limbo !== "empty") {
+        state.limboFull = true;
+      }
+    },
     checkLimbo(state, action) {
-      const updateLimbo = async () => {
-        const response = await fetch(`${state.api}.json`);
-        const data = await response.json();
-        if (data.limbo !== {}) {
-          state.limboFull = true;
-        }
-      };
-      updateLimbo();
+      if (state.limbo !== "empty") {
+        state.limboFull = true;
+        console.log(state.limbo);
+      }
     },
     limboTransaction(state, action) {
       const postData = async () => {
@@ -39,7 +48,6 @@ const navbar = createSlice({
           }),
         });
         const data = await response.json();
-        console.log(data);
       };
       postData();
     },
@@ -54,13 +62,10 @@ const navbar = createSlice({
         "Matt, I need you to help me with my Starcraft strategy.";
       const EncryptionResult = cryptico.encrypt(PlainText, PublicKey);
 
-      console.log("encrypted message", EncryptionResult);
-
       const DecryptionResult = cryptico.decrypt(
         EncryptionResult.cipher,
         PrivateKey
       );
-      console.log("Decrypted Message", DecryptionResult);
 
       state.transaction = {
         username: action.payload.username,
@@ -74,11 +79,11 @@ const navbar = createSlice({
           method: "PUT",
           body: JSON.stringify({
             username: action.payload.username,
-            limbo: state.transaction,
+            limbo: [],
             publicKey: PublicKey,
             trustedUsers: state.trustedUsers,
             blockChain: state.blockChain,
-            credits:0
+            credits: 0,
           }),
         });
       };
@@ -117,12 +122,20 @@ const loading = createSlice({
 export const getBlockChain = (api) => {
   return async (dispatch) => {
     const getData = async () => {
-      const blockChainRequest = await fetch(api);
-      const trustedData = await blockChainRequest.json();
-      const blockChain = trustedData.blockChain;
-      dispatch(navBarActions.setBlockChain(blockChain));
+      const response = await fetch(api,);
+      const data = await response.json();
+      console.log(data);
+      const dataObject = { limbo: data.limbo, blockChain: data.blockChain };
+      if (data.limbo) {
+        dispatch(navBarActions.setLimbo(dataObject.limbo));
+        dispatch(navBarActions.setLimboFull(true));
+      }
+      if (data.blockChain) {
+        dispatch(navBarActions.setBlockChain(dataObject.blockChain));
+      }
     };
-    getData();
+    await getData();
+    console.log("hello");
   };
 };
 
