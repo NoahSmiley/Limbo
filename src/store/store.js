@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import * as cryptico from "cryptico-js/dist/cryptico.browser.js";
+import hashSlice from "./hashSlice";
 const navbar = createSlice({
   name: "navbar",
   initialState: {
     navType: "login",
     trustedUser: "https://noahnode-62cc0-default-rtdb.firebaseio.com/.json",
-    blockChain: "initial",
+    blockChain: [],
     transaction: {},
     api: "",
     limboFull: false,
@@ -14,20 +15,22 @@ const navbar = createSlice({
   },
   reducers: {
     setAPI(state, action) {
-      state.api = action.payload+".json";
+      state.api = action.payload + ".json";
+    },
+    setTransaction(state, action) {
+      state.transaction = action.payload;
     },
     changeNav(state, action) {
       state.navType = action.payload;
     },
     setBlockChain(state, action) {
-      state.blockChain = action.payload;
+      state.blockChain = [...state.blockChain, action.payload];
     },
     setLimboFull(state, action) {
       state.limboFull = action.payload;
     },
     setLimbo(state, action) {
       state.limbo = action.payload;
-      console.log(action.payload);
       if (state.limbo !== "empty") {
         state.limboFull = true;
       }
@@ -35,7 +38,7 @@ const navbar = createSlice({
     checkLimbo(state, action) {
       if (state.limbo !== "empty") {
         state.limboFull = true;
-        console.log(state.limbo);
+        // console.log(state.limbo);
       }
     },
     limboTransaction(state, action) {
@@ -44,6 +47,18 @@ const navbar = createSlice({
           method: "PUT",
           body: JSON.stringify({
             limbo: state.transaction,
+            blockChain: typeof state.blockChain != String && state.blockChain,
+          }),
+        });
+        const data = await response.json();
+      };
+      postData();
+    },
+    blockChainTransaction(state, action) {
+      const postData = async () => {
+        const response = await fetch(state.trustedUser, {
+          method: "PUT",
+          body: JSON.stringify({
             blockChain: state.blockChain,
           }),
         });
@@ -51,7 +66,6 @@ const navbar = createSlice({
       };
       postData();
     },
-
     initDatabase(state, action) {
       const Bits = 512;
 
@@ -122,17 +136,14 @@ const loading = createSlice({
 export const getBlockChain = (api) => {
   return async (dispatch) => {
     const getData = async () => {
-      const response = await fetch(api,);
+      const response = await fetch(api);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       const dataObject = { limbo: data.limbo, blockChain: data.blockChain };
-      if (data.limbo) {
-        dispatch(navBarActions.setLimbo(dataObject.limbo));
-        dispatch(navBarActions.setLimboFull(true));
-      }
-      if (data.blockChain) {
-        dispatch(navBarActions.setBlockChain(dataObject.blockChain));
-      }
+      dispatch(navBarActions.setLimbo(dataObject.limbo));
+      dispatch(navBarActions.setLimboFull(true));
+
+      dispatch(navBarActions.setBlockChain(dataObject.blockChain));
     };
     await getData();
     console.log("hello");
@@ -140,7 +151,11 @@ export const getBlockChain = (api) => {
 };
 
 const store = configureStore({
-  reducer: { navbar: navbar.reducer, loading: loading.reducer },
+  reducer: {
+    navbar: navbar.reducer,
+    loading: loading.reducer,
+    hashSlice: hashSlice.reducer,
+  },
 });
 
 export const navBarActions = navbar.actions;
