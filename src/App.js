@@ -27,10 +27,10 @@ function App() {
   }, [limboFull, dispatch, limbo, solved, hashValue]);
 
 useEffect(()=>{
-  if (limboFull && solved && limbo !== "empty") {
+  if (limboFull && solved && limbo !== "") {
     let block = { POW: hashValue, stamp: new Date(), transaction: limbo };
     dispatch(navBarActions.setBlockChain(block));
-    dispatch(navBarActions.setLimbo("empty"));
+    dispatch(navBarActions.setLimbo(""));
     dispatch(navBarActions.blockChainTransaction());
     dispatch(navBarActions.setLimboFull(false));
     dispatch(navBarActions.setTransaction({}));

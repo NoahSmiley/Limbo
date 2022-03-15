@@ -11,7 +11,7 @@ const navbar = createSlice({
     transaction: {},
     api: "",
     limboFull: false,
-    limbo: "empty",
+    limbo: "",
   },
   reducers: {
     setAPI(state, action) {
@@ -31,12 +31,12 @@ const navbar = createSlice({
     },
     setLimbo(state, action) {
       state.limbo = action.payload;
-      if (state.limbo !== "empty") {
+      if (state.limbo !== "") {
         state.limboFull = true;
       }
     },
     checkLimbo(state, action) {
-      if (state.limbo !== "empty") {
+      if (state.limbo !== "") {
         state.limboFull = true;
         // console.log(state.limbo);
       }
@@ -45,9 +45,7 @@ const navbar = createSlice({
       const postData = async () => {
         const response = await fetch(`${state.trustedUser}/limbo.json`, {
           method: "PUT",
-          body: JSON.stringify({
-            limbo: state.transaction,
-          }),
+          body: JSON.stringify(state.transaction),
         });
         const data = await response.json();
       };
