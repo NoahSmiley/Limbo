@@ -24,16 +24,18 @@ function App() {
       }, 10);
       return () => clearTimeout(newTimer);
     }
-
-    if (limboFull && solved && limbo !== "empty") {
-      let block = { POW: hashValue, stamp: new Date(), transaction: limbo };
-      dispatch(navBarActions.setBlockChain(block));
-      dispatch(navBarActions.setLimbo("empty"));
-      dispatch(navBarActions.blockChainTransaction());
-      dispatch(navBarActions.setLimboFull(false));
-      dispatch(navBarActions.setTransaction({}));
-    }
   }, [limboFull, dispatch, limbo, solved, hashValue]);
+
+useEffect(()=>{
+  if (limboFull && solved && limbo !== "empty") {
+    let block = { POW: hashValue, stamp: new Date(), transaction: limbo };
+    dispatch(navBarActions.setBlockChain(block));
+    dispatch(navBarActions.setLimbo("empty"));
+    dispatch(navBarActions.blockChainTransaction());
+    dispatch(navBarActions.setLimboFull(false));
+    dispatch(navBarActions.setTransaction({}));
+  }
+},[dispatch,limbo,limboFull,hashValue,solved])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -50,9 +52,6 @@ function App() {
           if (data.limbo) {
             dispatch(navBarActions.setLimbo(dataObject.limbo));
             dispatch(navBarActions.setLimboFull(true));
-          }
-          if (data.blockChain) {
-            dispatch(navBarActions.setBlockChain(dataObject.blockChain));
           }
         };
         getData();

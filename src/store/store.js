@@ -6,7 +6,7 @@ const navbar = createSlice({
   name: "navbar",
   initialState: {
     navType: "login",
-    trustedUser: "https://noahnode-62cc0-default-rtdb.firebaseio.com/.json",
+    trustedUser: "https://noahnode-62cc0-default-rtdb.firebaseio.com/",
     blockChain: [],
     transaction: {},
     api: "",
@@ -24,7 +24,7 @@ const navbar = createSlice({
       state.navType = action.payload;
     },
     setBlockChain(state, action) {
-      state.blockChain = [...state.blockChain, action.payload];
+      state.blockChain = action.payload;
     },
     setLimboFull(state, action) {
       state.limboFull = action.payload;
@@ -43,11 +43,10 @@ const navbar = createSlice({
     },
     limboTransaction(state, action) {
       const postData = async () => {
-        const response = await fetch(state.trustedUser, {
+        const response = await fetch(`${state.trustedUser}/limbo.json`, {
           method: "PUT",
           body: JSON.stringify({
             limbo: state.transaction,
-            blockChain: typeof state.blockChain != String && state.blockChain,
           }),
         });
         const data = await response.json();
@@ -56,15 +55,21 @@ const navbar = createSlice({
     },
     blockChainTransaction(state, action) {
       const postData = async () => {
-        const response = await fetch(state.trustedUser, {
+        const response = await fetch(`${state.trustedUser}/blockChain.json`, {
+          method: "POST",
+          body: JSON.stringify(state.blockChain),
+        });
+        const data = await response.json();
+      };
+      const postTwo = async () => {
+        const response = await fetch(`${state.trustedUser}/limbo.json`, {
           method: "PUT",
-          body: JSON.stringify({
-            blockChain: state.blockChain,
-          }),
+          body: JSON.stringify(state.limbo),
         });
         const data = await response.json();
       };
       postData();
+      postTwo();
     },
     initDatabase(state, action) {
       const Bits = 512;
@@ -139,9 +144,12 @@ export const getBlockChain = (api) => {
       const response = await fetch(api);
       const data = await response.json();
       // console.log(data);
+
       const dataObject = { limbo: data.limbo, blockChain: data.blockChain };
-      dispatch(navBarActions.setLimbo(dataObject.limbo));
-      dispatch(navBarActions.setLimboFull(true));
+      if (dataObject.limbo) {
+        dispatch(navBarActions.setLimbo(dataObject.limbo));
+        dispatch(navBarActions.setLimboFull(true));
+      }
 
       dispatch(navBarActions.setBlockChain(dataObject.blockChain));
     };
