@@ -12,11 +12,11 @@ const hashSlice = createSlice({
     solved: false,
   },
   reducers: {
-    setHashValue(state,action){
-      state.hashValue=action.payload
+    setHashValue(state, action) {
+      state.hashValue = action.payload;
     },
-    setSolved(state,action){
-      state.solved=action.payload
+    setSolved(state, action) {
+      state.solved = action.payload;
     },
     mine(state, action) {
       const hashHelper = (hashValue) => {
@@ -29,18 +29,19 @@ const hashSlice = createSlice({
           }
         }
         const zeros = "".padStart(Number(9), "0");
-        console.log(strings)
+        console.log(strings);
         if (strings[0].slice(0, 9) === zeros) {
           console.log("solved");
           console.log(hashValue);
           state.solved = true;
-          
         }
       };
-      state.transaction = action.payload.transaction;
-      state.hashValue = sha256(`${state.transaction}${state.counter}`).words;
-      hashHelper(state.hashValue);
-      state.counter = state.counter += 1;
+      if (action.payload != null) {
+        state.transaction = action.payload;
+        state.hashValue = sha256(`${state.transaction}${state.counter}`).words;
+        hashHelper(state.hashValue);
+        state.counter = state.counter += 1;
+      }
     },
   },
 });

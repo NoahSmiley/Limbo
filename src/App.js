@@ -5,7 +5,6 @@ import Limbo from "./components/Base/Limbo";
 import { useSelector, useDispatch } from "react-redux";
 import { navBarActions } from "./store/store";
 import { hashSliceActions } from "./store/hashSlice";
-import { getBlockChain } from "./store/store";
 function App() {
   const dispatch = useDispatch();
 
@@ -35,8 +34,8 @@ function App() {
       dispatch(navBarActions.blockChainTransaction());
       dispatch(navBarActions.setLimboFull(false));
       dispatch(navBarActions.setTransaction({}));
-      dispatch(hashSliceActions.setHashValue(null))
-      dispatch(hashSliceActions.setSolved(false))
+      dispatch(hashSliceActions.setHashValue(null));
+      dispatch(hashSliceActions.setSolved(false));
     }
   }, [dispatch, limbo, limboFull, hashValue, solved]);
 
@@ -55,24 +54,24 @@ function App() {
           const data2 = await response2.json();
           const trustedData = await trustedUser.json();
           console.log(data);
-          console.log("limbo",data2)
+          console.log("limbo", data2);
           // const dataObject = data.blockChain;
-          if (data2!=="") {
+          if (data2 !== "") {
             dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));
           }
-          if (data){
-            console.log("USER LENGTH",Object.keys(data).length)
-            console.log("TRUSTED LENGTH",Object.keys(trustedData).length)
+          if (data || trustedData) {
+            console.log("USER LENGTH", Object.keys(data).length);
+            console.log("TRUSTED LENGTH", Object.keys(trustedData).length);
           }
         };
-        getData()
+        getData();
         // console.log(limboFull,blockChain);
         // console.log(apiValue)
       }
     }, 5000);
     return () => clearTimeout(timer);
-  }, [limboFull, dispatch, blockChain, apiValue, loggedin, limbo]);
+  }, [limboFull, dispatch, blockChain, apiValue, loggedin, limbo, trusted]);
 
   return (
     <div className="App">
