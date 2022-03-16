@@ -5,7 +5,7 @@ import Limbo from "./components/Base/Limbo";
 import { useSelector, useDispatch } from "react-redux";
 import { navBarActions } from "./store/store";
 import { hashSliceActions } from "./store/hashSlice";
-// import { getBlockChain } from "./store/store";
+import { getBlockChain } from "./store/store";
 function App() {
   const dispatch = useDispatch();
 
@@ -26,16 +26,27 @@ function App() {
     }
   }, [limboFull, dispatch, limbo, solved, hashValue]);
 
-useEffect(()=>{
-  if (limboFull && solved && limbo !== "") {
-    let block = { POW: hashValue, stamp: new Date(), transaction: limbo };
-    dispatch(navBarActions.setBlockChain(block));
-    dispatch(navBarActions.setLimbo(""));
-    dispatch(navBarActions.blockChainTransaction());
-    dispatch(navBarActions.setLimboFull(false));
-    dispatch(navBarActions.setTransaction({}));
-  }
-},[dispatch,limbo,limboFull,hashValue,solved])
+  useEffect(() => {
+    if (limboFull && solved && limbo !== "") {
+      let block = { POW: hashValue, stamp: new Date(), transaction: limbo };
+      dispatch(navBarActions.setBlockChain(block));
+      dispatch(navBarActions.setLimbo(""));
+      dispatch(navBarActions.blockChainTransaction());
+      dispatch(navBarActions.setLimboFull(false));
+      dispatch(navBarActions.setTransaction({}));
+    }
+  }, [dispatch, limbo, limboFull, hashValue, solved]);
+
+  useEffect(() => {
+    if (limboFull && solved && limbo !== "") {
+      let block = { POW: hashValue, stamp: new Date(), transaction: limbo };
+      dispatch(navBarActions.setBlockChain(block));
+      dispatch(navBarActions.setLimbo(""));
+      dispatch(navBarActions.blockChainTransaction());
+      dispatch(navBarActions.setLimboFull(false));
+      dispatch(navBarActions.setTransaction({}));
+    }
+  }, [dispatch, limbo, limboFull, hashValue, solved]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -45,16 +56,22 @@ useEffect(()=>{
           console.log("HERE IS LIMBO", limbo);
         }
         const getData = async () => {
-          const response = await fetch(apiValue);
+          const response = await fetch(`${apiValue}/blockChain.json`);
+          const response2 = await fetch(`${apiValue}/limbo.json`);
           const data = await response.json();
-          // console.log(data);
-          const dataObject = { limbo: data.limbo, blockChain: data.blockChain };
-          if (data.limbo) {
-            dispatch(navBarActions.setLimbo(dataObject.limbo));
+          const data2 = await response2.json();
+          console.log(data);
+          console.log("limbo",data2)
+          // const dataObject = data.blockChain;
+          if (data2) {
+            dispatch(navBarActions.setLimbo(data2.limbo));
             dispatch(navBarActions.setLimboFull(true));
           }
+          if (data){
+            console.log(Object.keys(data).length)
+          }
         };
-        getData();
+        getData()
         // console.log(limboFull,blockChain);
         // console.log(apiValue)
       }

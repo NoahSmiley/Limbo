@@ -12,10 +12,11 @@ const navbar = createSlice({
     api: "",
     limboFull: false,
     limbo: "",
+    blockLength: 0
   },
   reducers: {
     setAPI(state, action) {
-      state.api = action.payload + ".json";
+      state.api = action.payload;
     },
     setTransaction(state, action) {
       state.transaction = action.payload;
@@ -141,7 +142,7 @@ export const getBlockChain = (api) => {
     const getData = async () => {
       const response = await fetch(api);
       const data = await response.json();
-      // console.log(data);
+      console.log(data);
 
       const dataObject = { limbo: data.limbo, blockChain: data.blockChain };
       if (dataObject.limbo) {
