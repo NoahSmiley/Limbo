@@ -5,6 +5,7 @@ import Limbo from "./components/Base/Limbo";
 import { useSelector, useDispatch } from "react-redux";
 import { navBarActions } from "./store/store";
 import { hashSliceActions } from "./store/hashSlice";
+import {getBlockChain} from "./store/store"
 function App() {
   const dispatch = useDispatch();
 
@@ -42,10 +43,6 @@ function App() {
   useEffect(() => {
     const timer = setInterval(() => {
       if (loggedin === "loggedin") {
-        if (limboFull) {
-          console.log("New item in Limbo, time to mine!");
-          console.log("HERE IS LIMBO", limbo);
-        }
         const getData = async () => {
           const response = await fetch(`${apiValue}/blockChain.json`);
           const response2 = await fetch(`${apiValue}/limbo.json`);
@@ -53,21 +50,24 @@ function App() {
           const data = await response.json();
           const data2 = await response2.json();
           const trustedData = await trustedUser.json();
-          console.log(data);
-          console.log("limbo", data2);
+
           // const dataObject = data.blockChain;
           if (data2 !== "") {
             dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));
           }
-          if (data || trustedData) {
-            console.log("USER LENGTH", Object.keys(data).length);
-            console.log("TRUSTED LENGTH", Object.keys(trustedData).length);
+        if (Object.keys(data).length<Object.keys(trustedData).length) {
+            dispatch(navBarActions.setBlockChain(trustedData));
+            const postData = async () => {
+              const response = await fetch(`${apiValue}/blockChain.json`, {
+                method: "PUT",
+                body: JSON.stringify(blockChain),
+              });
+              const data = await response.json()}
+              postData();
           }
         };
         getData();
-        // console.log(limboFull,blockChain);
-        // console.log(apiValue)
       }
     }, 5000);
     return () => clearTimeout(timer);

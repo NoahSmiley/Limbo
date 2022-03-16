@@ -7,7 +7,7 @@ const navbar = createSlice({
   initialState: {
     navType: "login",
     trustedUser: "https://noahnode-62cc0-default-rtdb.firebaseio.com/",
-    blockChain: [],
+    blockChain: [{"pow":0}],
     transaction: {},
     api: "",
     limboFull: false,
@@ -143,17 +143,9 @@ export const getBlockChain = (api) => {
       const response = await fetch(api);
       const data = await response.json();
       console.log(data);
-
-      const dataObject = { limbo: data.limbo, blockChain: data.blockChain };
-      if (dataObject.limbo) {
-        dispatch(navBarActions.setLimbo(dataObject.limbo));
-        dispatch(navBarActions.setLimboFull(true));
-      }
-
-      dispatch(navBarActions.setBlockChain(dataObject.blockChain));
+      dispatch(navBarActions.setBlockChain(data));
     };
     await getData();
-    console.log("hello");
   };
 };
 
