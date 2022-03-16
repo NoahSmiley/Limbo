@@ -7,13 +7,16 @@ const hashSlice = createSlice({
   name: "hashSlice",
   initialState: {
     transaction: {},
-    hashValue: 0,
+    hashValue: null,
     counter: 0,
     solved: false,
   },
   reducers: {
     setHashValue(state,action){
       state.hashValue=action.payload
+    },
+    setSolved(state,action){
+      state.solved=action.payload
     },
     mine(state, action) {
       const hashHelper = (hashValue) => {

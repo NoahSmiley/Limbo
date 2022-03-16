@@ -36,6 +36,7 @@ function App() {
       dispatch(navBarActions.setLimboFull(false));
       dispatch(navBarActions.setTransaction({}));
       dispatch(hashSliceActions.setHashValue(null))
+      dispatch(hashSliceActions.setSolved(false))
     }
   }, [dispatch, limbo, limboFull, hashValue, solved]);
 
@@ -48,7 +49,7 @@ function App() {
         }
         const getData = async () => {
           const response = await fetch(`${apiValue}/blockChain.json`);
-          const response2 = await fetch(`${apiValue}/blockChain.json`);
+          const response2 = await fetch(`${apiValue}/limbo.json`);
           const trustedUser = await fetch(`${trusted}/blockChain.json`);
           const data = await response.json();
           const data2 = await response2.json();
@@ -56,7 +57,7 @@ function App() {
           console.log(data);
           console.log("limbo",data2)
           // const dataObject = data.blockChain;
-          if (data2) {
+          if (data2!=="") {
             dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));
           }
