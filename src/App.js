@@ -64,7 +64,7 @@ function App() {
           console.log("limbo",data2)
           // const dataObject = data.blockChain;
           if (data2) {
-            dispatch(navBarActions.setLimbo(data2.limbo));
+            dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));
           }
           if (data){
