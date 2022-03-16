@@ -38,17 +38,6 @@ function App() {
   }, [dispatch, limbo, limboFull, hashValue, solved]);
 
   useEffect(() => {
-    if (limboFull && solved && limbo !== "") {
-      let block = { POW: hashValue, stamp: new Date(), transaction: limbo };
-      dispatch(navBarActions.setBlockChain(block));
-      dispatch(navBarActions.setLimbo(""));
-      dispatch(navBarActions.blockChainTransaction());
-      dispatch(navBarActions.setLimboFull(false));
-      dispatch(navBarActions.setTransaction({}));
-    }
-  }, [dispatch, limbo, limboFull, hashValue, solved]);
-
-  useEffect(() => {
     const timer = setInterval(() => {
       if (loggedin === "loggedin") {
         if (limboFull) {
