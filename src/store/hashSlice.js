@@ -10,10 +10,14 @@ const hashSlice = createSlice({
     hashValue: null,
     counter: 0,
     solved: false,
+    blockList:[]
   },
   reducers: {
     setHashValue(state, action) {
       state.hashValue = action.payload;
+    },
+    setBlockList(state, action) {
+      state.blockList = action.payload;
     },
     setSolved(state, action) {
       state.solved = action.payload;

@@ -17,7 +17,6 @@ function App() {
   const solved = useSelector((state) => state.hashSlice.solved);
   const hashValue = useSelector((state) => state.hashSlice.hashValue);
   const trusted = useSelector((state) => state.navbar.trustedUser);
-
   useEffect(() => {
     if (limboFull && !solved) {
       const newTimer = setInterval(() => {
@@ -51,6 +50,12 @@ function App() {
           const data2 = await response2.json();
           const trustedData = await trustedUser.json();
 
+          let blockList = []
+          // for (const [key, value] of Object.entries(data)) {
+          //   blockList.push(value.transaction);
+          // }
+          console.log(blockList)
+          dispatch(hashSliceActions.setBlockList(blockList))
           // const dataObject = data.blockChain;
           if (data2 !== "") {
             dispatch(navBarActions.setLimbo(data2));
