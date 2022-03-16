@@ -12,6 +12,9 @@ const hashSlice = createSlice({
     solved: false,
   },
   reducers: {
+    setHashValue(state,action){
+      state.hashValue=action.payload
+    },
     mine(state, action) {
       const hashHelper = (hashValue) => {
         let strings = [];
@@ -28,6 +31,7 @@ const hashSlice = createSlice({
           console.log("solved");
           console.log(hashValue);
           state.solved = true;
+          
         }
       };
       state.transaction = action.payload.transaction;

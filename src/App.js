@@ -16,6 +16,7 @@ function App() {
   const limbo = useSelector((state) => state.navbar.limbo);
   const solved = useSelector((state) => state.hashSlice.solved);
   const hashValue = useSelector((state) => state.hashSlice.hashValue);
+  const trusted = useSelector((state) => state.navbar.trustedUser);
 
   useEffect(() => {
     if (limboFull && !solved) {
@@ -34,6 +35,7 @@ function App() {
       dispatch(navBarActions.blockChainTransaction());
       dispatch(navBarActions.setLimboFull(false));
       dispatch(navBarActions.setTransaction({}));
+      dispatch(hashSliceActions.setHashValue(null))
     }
   }, [dispatch, limbo, limboFull, hashValue, solved]);
 
@@ -46,9 +48,11 @@ function App() {
         }
         const getData = async () => {
           const response = await fetch(`${apiValue}/blockChain.json`);
-          const response2 = await fetch(`${apiValue}/limbo.json`);
+          const response2 = await fetch(`${apiValue}/blockChain.json`);
+          const trustedUser = await fetch(`${trusted}/blockChain.json`);
           const data = await response.json();
           const data2 = await response2.json();
+          const trustedData = await trustedUser.json();
           console.log(data);
           console.log("limbo",data2)
           // const dataObject = data.blockChain;
@@ -57,7 +61,8 @@ function App() {
             dispatch(navBarActions.setLimboFull(true));
           }
           if (data){
-            console.log(Object.keys(data).length)
+            console.log("USER LENGTH",Object.keys(data).length)
+            console.log("TRUSTED LENGTH",Object.keys(trustedData).length)
           }
         };
         getData()
