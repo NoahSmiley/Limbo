@@ -6,9 +6,12 @@ const Docs = () => {
       <Card title="Limbo Documentation" style={{marginTop:"-15%",textAlign:"left"}}>
         <Card
           type="inner"
-          title="Our Application"
+          title="Mevo"
         >
-          Hashing
+          Mevo is just like the most popular social media applications with a bit of a twist.
+          Our application will not store data in a central location but, will use Google Firebase 
+          to give all users with accounts there own personal blockchain with application data.
+
         </Card>
         <Card
           style={{ marginTop: 16 }}
@@ -22,7 +25,9 @@ const Docs = () => {
           type="inner"
           title="Why Blockchains?"
         >
-          <pre>Hello</pre>
+          Blockchains have recently become a buzz word with the rise of cryptocurrencies. 
+          However, blockchains are not limited to cryptocurrencies they are simply a way of 
+          storing data.
         </Card>
       </Card>
       ,
