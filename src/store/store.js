@@ -12,11 +12,22 @@ const navbar = createSlice({
     api: "",
     limboFull: false,
     limbo: "",
-    blockLength: 0
+    blockLength: 0,
+    credits:null,
+    modal:true
   },
   reducers: {
     setAPI(state, action) {
       state.api = action.payload;
+    },
+    setModal(state, action) {
+      state.modal = action.payload;
+    },
+    addCredit(state, action) {
+      state.credits = state.credits+=1;
+    },
+    setCredits(state, action) {
+      state.credits = action.payload;
     },
     setTransaction(state, action) {
       state.transaction = action.payload;
@@ -52,6 +63,7 @@ const navbar = createSlice({
       };
       postData();
     },
+
     blockChainTransaction(state, action) {
       const postData = async () => {
         const response = await fetch(`${state.trustedUser}/blockChain.json`, {
@@ -67,9 +79,18 @@ const navbar = createSlice({
         });
         const data = await response.json();
       };
+      const postThree = async () => {
+        const response = await fetch(`${state.trustedUser}/credits.json`, {
+          method: "PUT",
+          body: JSON.stringify(state.credits),
+        });
+        const data = await response.json();
+      };
       postData();
       postTwo();
+      postThree();
     },
+
     initDatabase(state, action) {
       const Bits = 512;
 
@@ -101,7 +122,7 @@ const navbar = createSlice({
             publicKey: PublicKey,
             trustedUsers: state.trustedUsers,
             blockChain: state.blockChain,
-            credits: 0,
+            credits: 25,
           }),
         });
       };

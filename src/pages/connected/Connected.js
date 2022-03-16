@@ -1,29 +1,24 @@
 import FullLayOut from "../../components/Base/FullLayOut";
 import ConnectedResult from "../../components/Results/ConnectedResult";
 import { Modal, Button } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MainStats from "../../components/Stats/MainStats";
+import { useDispatch, useSelector } from "react-redux";
+import { navBarActions } from "../../store/store";
 const Connected = () => {
-  const [isModalVisible, setIsModalVisible] = useState(true);
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  const modal = useSelector((state)=>state.navbar.modal)
+  const dispatch = useDispatch()
+
   return (
     <div>
       <Modal
         style={{ marginLeft: "38%" }}
         title="Node Connection Staus"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        visible={modal}
+        onOk={()=>dispatch(navBarActions.setModal(false))}
+        onCancel={()=>dispatch(navBarActions.setModal(false))}
         footer={[
-          <Button key="submit" type="primary" onClick={handleOk}>
+          <Button key="submit" type="primary" onClick={()=>dispatch(navBarActions.setModal(false))}>
             Sounds Good!
           </Button>,
         ]}

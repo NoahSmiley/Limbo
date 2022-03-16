@@ -10,7 +10,7 @@ import {
   Descriptions,
 } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
-
+import { useSelector } from "react-redux";
 const MainStats = () => {
   const data = [
     "Racing car sprays burning fuel into crowd.",
@@ -19,16 +19,17 @@ const MainStats = () => {
     "Man charged over missing wedding girl.",
     "Los Angeles battles huge wildfires.",
   ];
+const credits = useSelector((state)=>state.navbar.credits)
   return (
     <Row gutter={16}>
       <Col span={12}>
         <Card>
-          <Statistic title="Active Nodes" value={2} />
+          <Statistic title="Active Nodes" value={1} />
         </Card>
       </Col>
       <Col span={12}>
         <Card>
-          <Statistic title="Current Credits (Lim)" value={3} />
+          <Statistic title="Current Credits (Lim)" value={credits} />
         </Card>
       </Col>
       <Col span={12}>

@@ -17,11 +17,14 @@ function App() {
   const solved = useSelector((state) => state.hashSlice.solved);
   const hashValue = useSelector((state) => state.hashSlice.hashValue);
   const trusted = useSelector((state) => state.navbar.trustedUser);
+  const credits = useSelector((state) => state.navbar.credits);
+  
   useEffect(() => {
     if (limboFull && !solved) {
+      dispatch(hashSliceActions.setMiningStatus("Mining"))
       const newTimer = setInterval(() => {
         dispatch(hashSliceActions.mine(limbo));
-      }, 10);
+      }, 100);
       return () => clearTimeout(newTimer);
     }
   }, [limboFull, dispatch, limbo, solved, hashValue]);
@@ -31,11 +34,15 @@ function App() {
       let block = { POW: hashValue, stamp: new Date(), transaction: limbo };
       dispatch(navBarActions.setBlockChain(block));
       dispatch(navBarActions.setLimbo(""));
-      dispatch(navBarActions.blockChainTransaction());
       dispatch(navBarActions.setLimboFull(false));
       dispatch(navBarActions.setTransaction({}));
       dispatch(hashSliceActions.setHashValue(null));
       dispatch(hashSliceActions.setSolved(false));
+      dispatch(navBarActions.addCredit())
+      dispatch(navBarActions.blockChainTransaction());
+      dispatch(hashSliceActions.setMiningStatus("Scanning Limbo"))
+      console.log(credits)
+      
     }
   }, [dispatch, limbo, limboFull, hashValue, solved]);
 
@@ -45,18 +52,20 @@ function App() {
         const getData = async () => {
           const response = await fetch(`${apiValue}/blockChain.json`);
           const response2 = await fetch(`${apiValue}/limbo.json`);
+          const credits = await fetch(`${apiValue}/credits.json`);
           const trustedUser = await fetch(`${trusted}/blockChain.json`);
           const data = await response.json();
           const data2 = await response2.json();
           const trustedData = await trustedUser.json();
+          const creditData = await credits.json();
 
           let blockList = []
-          // for (const [key, value] of Object.entries(data)) {
-          //   blockList.push(value.transaction);
-          // }
+          for (const [key, value] of Object.entries(data)) {
+            blockList.push({transaction:value.transaction,timeStamp:value.stamp});
+          }
           console.log(blockList)
           dispatch(hashSliceActions.setBlockList(blockList))
-          // const dataObject = data.blockChain;
+          dispatch(navBarActions.setCredits(creditData))
           if (data2 !== "") {
             dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));

@@ -10,11 +10,15 @@ const hashSlice = createSlice({
     hashValue: null,
     counter: 0,
     solved: false,
-    blockList:[]
+    blockList:[],
+    miningStatus:"Standby",
   },
   reducers: {
     setHashValue(state, action) {
       state.hashValue = action.payload;
+    },
+    setMiningStatus(state, action) {
+      state.miningStatus = action.payload;
     },
     setBlockList(state, action) {
       state.blockList = action.payload;

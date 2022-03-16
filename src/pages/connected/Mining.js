@@ -1,11 +1,9 @@
-import React, { Fragment,useState } from "react";
+import React, {useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   Form,
-  Input,
   Button,
-  Divider,
   Col,
   Card,
   Statistic,
@@ -13,14 +11,7 @@ import {
   Layout,
   Slider,
 } from "antd";
-import { navBarActions } from "../../store/store";
-import {
-  EyeInvisibleOutlined,
-  EyeTwoTone,
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-} from "@ant-design/icons";
-import FormList from "antd/lib/form/FormList";
+import { useSelector } from "react-redux";
 
 const { Header, Content } = Layout;
 const Mining = () => {
@@ -39,7 +30,8 @@ const Mining = () => {
     }),
   });
   const [hasChanged,setHasChanged]=useState(false)
-
+  const miningStatus = useSelector((state)=>state.hashSlice.miningStatus)
+  const credits = useSelector((state)=>state.navbar.credits)
   return (
     <div style={{ marginTop: "-10%", background: "white" }}>
       <Header
@@ -54,11 +46,11 @@ const Mining = () => {
       <Row gutter={16}>
         <Col span={12}>
           <Card>
-            <Statistic title="Miner Status:" value={"Scanning Limbo"} />
+            <Statistic title="Miner Status:" value={miningStatus} />
           </Card>
           <br />
           <Card>
-            <Statistic title="Current Credits (Lim)" value={3} />
+            <Statistic title="Current Credits (Lim)" value={credits} />
           </Card>
         </Col>
 
@@ -80,7 +72,7 @@ const Mining = () => {
                   <Slider
                   id="hashRate"
                     defaultValue={formik.values.hashRate}
-                    onChange={formik.handleChange}
+                    // onChange={formik.handleChange}
                     onChange={()=>setHasChanged(true)}
                     min={1}
                     onBlur={formik.handleBlur}
