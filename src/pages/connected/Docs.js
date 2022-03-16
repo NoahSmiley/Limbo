@@ -6,14 +6,21 @@ const Docs = () => {
       <Card title="Limbo Documentation" style={{marginTop:"-15%",textAlign:"left"}}>
         <Card
           type="inner"
-          title="Hashing"
+          title="Our Application"
         >
           Hashing
         </Card>
         <Card
           style={{ marginTop: 16 }}
           type="inner"
-          title="Inner Card title"
+          title="How our Application Works"
+        >
+          <pre>Hello</pre>
+        </Card>
+        <Card
+          style={{ marginTop: 16 }}
+          type="inner"
+          title="Why Blockchains?"
         >
           <pre>Hello</pre>
         </Card>
