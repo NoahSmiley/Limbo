@@ -1,37 +1,31 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  Form,
-  Button,
-  Col,
-  Card,
-  Statistic,
-  Row,
-  Layout,
-  Slider,
-} from "antd";
-import { useSelector } from "react-redux";
-
+import { Form, Button, Col, Card, Statistic, Row, Layout, Slider } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { hashSliceActions } from "../../store/hashSlice";
 const { Header, Content } = Layout;
 const Mining = () => {
+  const dispatch = useDispatch();
+  const hashRate = useSelector((state) => state.hashSlice.hashRate);
   function formatter(value) {
     return `${value} ms`;
   }
   const formik = useFormik({
     initialValues: {
-      hashRate: 10,
+      hashRate: hashRate,
     },
     onSubmit: (value) => {
-      console.log(value);
+      dispatch(hashSliceActions.setHashRate(value.hashRate));
+      console.log(value.hashRate)
     },
     validationSchema: Yup.object({
       hashRate: Yup.string(),
     }),
   });
-  const [hasChanged,setHasChanged]=useState(false)
-  const miningStatus = useSelector((state)=>state.hashSlice.miningStatus)
-  const credits = useSelector((state)=>state.navbar.credits)
+
+  const miningStatus = useSelector((state) => state.hashSlice.miningStatus);
+  const credits = useSelector((state) => state.navbar.credits);
   return (
     <div style={{ marginTop: "-10%", background: "white" }}>
       <Header
@@ -53,7 +47,6 @@ const Mining = () => {
             <Statistic title="Current Credits (Lim)" value={credits} />
           </Card>
         </Col>
-
         <Col span={12}>
           <Card>
             <Form
@@ -70,19 +63,20 @@ const Mining = () => {
                   label="Set Hash Rate"
                 >
                   <Slider
-                  id="hashRate"
-                    defaultValue={formik.values.hashRate}
-                    // onChange={formik.handleChange}
-                    onChange={()=>setHasChanged(true)}
-                    min={1}
-                    onBlur={formik.handleBlur}
-                    max={20}
-                    marks={{10:"Default (10ms)"}}
+                    id="hashRate"
+                    defaultValue={hashRate}
+                    onChange={(value) =>
+                      formik.setFieldValue("hashRate", value)
+                    }
+                    min={5}
+                    max={15}
+                    marks={{ 10: "Default (10ms)" }}
                     tipFormatter={formatter}
+                    value={formik.values.hashRate}
                   />
                 </Form.Item>
 
-                <Button type="primary" htmlType="submit" disabled={!hasChanged}>
+                <Button type="primary" htmlType="submit">
                   Update Hash Rate
                 </Button>
               </div>

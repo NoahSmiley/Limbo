@@ -18,13 +18,14 @@ function App() {
   const hashValue = useSelector((state) => state.hashSlice.hashValue);
   const trusted = useSelector((state) => state.navbar.trustedUser);
   const credits = useSelector((state) => state.navbar.credits);
+  const hashRate = useSelector((state) => state.hashSlice.hashRate);
   
   useEffect(() => {
     if (limboFull && !solved) {
       dispatch(hashSliceActions.setMiningStatus("Mining"))
       const newTimer = setInterval(() => {
         dispatch(hashSliceActions.mine(limbo));
-      }, 100);
+      }, 10*hashRate);
       return () => clearTimeout(newTimer);
     }
   }, [limboFull, dispatch, limbo, solved, hashValue]);
@@ -64,6 +65,7 @@ function App() {
             blockList.push({transaction:value.transaction,timeStamp:value.stamp});
           }
           console.log(blockList)
+          blockList.reverse()
           dispatch(hashSliceActions.setBlockList(blockList))
           dispatch(navBarActions.setCredits(creditData))
           if (data2 !== "") {

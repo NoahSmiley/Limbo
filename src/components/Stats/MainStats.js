@@ -12,14 +12,9 @@ import {
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 const MainStats = () => {
-  const data = [
-    "Racing car sprays burning fuel into crowd.",
-    "Japanese princess to wed commoner.",
-    "Australian walks 100km after outback crash.",
-    "Man charged over missing wedding girl.",
-    "Los Angeles battles huge wildfires.",
-  ];
-const credits = useSelector((state)=>state.navbar.credits)
+  let data = useSelector((state) => state.hashSlice.blockList);
+
+  const credits = useSelector((state) => state.navbar.credits);
   return (
     <Row gutter={16}>
       <Col span={12}>
@@ -57,26 +52,26 @@ const credits = useSelector((state)=>state.navbar.credits)
         </Card>
       </Col>
       <Divider orientation="left">Block Ledger:</Divider>
+
       <List
         size="large"
         style={{ textAlign: "left" }}
-        header={<div>Transactions:</div>}
-        footer={<div>Footer</div>}
+        header={<div>Blocks:</div>}
         bordered
         dataSource={data}
         renderItem={(item) => (
           <List.Item>
-            <Descriptions title="Node 2347">
-              <Descriptions.Item label="UserName">
-                Zhou Maomao
+            <Descriptions title="Block:">
+              <Descriptions.Item label="Time Stamp:">
+                {item.timeStamp}
               </Descriptions.Item>
-              <Descriptions.Item label="Action">Post</Descriptions.Item>
-              <Descriptions.Item label="Live">
-                Hangzhou, Zhejiang
+
+              <Descriptions.Item label="Action">
+                {item.transaction.action}
               </Descriptions.Item>
-              <Descriptions.Item label="Remark">empty</Descriptions.Item>
-              <Descriptions.Item label="Address">
-                No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
+
+              <Descriptions.Item label="User">
+                {item.transaction.username}
               </Descriptions.Item>
             </Descriptions>
           </List.Item>

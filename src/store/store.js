@@ -92,7 +92,7 @@ const navbar = createSlice({
     },
 
     initDatabase(state, action) {
-      const Bits = 512;
+      const Bits = 256;
 
       const PrivateKey = cryptico.generateRSAKey(action.payload.password, Bits);
       const PublicKey = cryptico.publicKeyString(PrivateKey);
@@ -109,7 +109,7 @@ const navbar = createSlice({
       state.transaction = {
         username: action.payload.username,
         publicKey: PublicKey,
-        action: "signup",
+        action: "Account Creation",
       };
       state.api = action.payload.api;
 
