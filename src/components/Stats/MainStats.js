@@ -12,9 +12,11 @@ import {
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 const MainStats = () => {
+  
   let data = useSelector((state) => state.hashSlice.blockList);
-
+  
   const credits = useSelector((state) => state.navbar.credits);
+
   return (
     <Row gutter={16}>
       <Col span={12}>

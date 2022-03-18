@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { getBlockChain } from "../../store/store";
+
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,7 +20,9 @@ const LoginForm = () => {
     },
     onSubmit: (value) => {
       navigate("/connected");
+      console.log(value.username)
       dispatch(navBarActions.setAPI(value.api))
+      dispatch(navBarActions.setUserName(value.username))
       dispatch(navBarActions.changeNav("loggedin"));
     },
     validationSchema: Yup.object({

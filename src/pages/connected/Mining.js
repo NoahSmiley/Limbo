@@ -24,7 +24,8 @@ const Mining = () => {
     }),
   });
 
-  const miningStatus = useSelector((state) => state.hashSlice.miningStatus);
+  let miningStatus = useSelector((state) => state.hashSlice.miningStatus);
+  // miningStatus.reverse()
   const credits = useSelector((state) => state.navbar.credits);
   return (
     <div style={{ marginTop: "-10%", background: "white" }}>

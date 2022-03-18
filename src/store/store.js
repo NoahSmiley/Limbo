@@ -6,25 +6,39 @@ const navbar = createSlice({
   name: "navbar",
   initialState: {
     navType: "login",
-    trustedUser: "https://noahnode-62cc0-default-rtdb.firebaseio.com/",
-    blockChain: [{"pow":0}],
+    trustedUser: "https://noahnode-62cc0-default-rtdb.firebaseio.com",
+    blockChain: [{ pow: 0 }],
     transaction: {},
     api: "",
     limboFull: false,
     limbo: "",
     blockLength: 0,
-    credits:null,
-    modal:true
+    credits: null,
+    modal: true,
+    userName: "",
+    messages: [],
   },
   reducers: {
+    addMessage(state, action) {
+      state.messages = [...state.messages, action.payload];
+    },
+    setMessages(state, action) {
+      state.messages = action.payload;
+    },
     setAPI(state, action) {
       state.api = action.payload;
+    },
+    setUserName(state, action) {
+      state.userName = action.payload;
     },
     setModal(state, action) {
       state.modal = action.payload;
     },
     addCredit(state, action) {
-      state.credits = state.credits+=1;
+      state.credits = state.credits += 1;
+    },
+    subCredit(state, action) {
+      state.credits = state.credits -= 1;
     },
     setCredits(state, action) {
       state.credits = action.payload;
@@ -63,7 +77,26 @@ const navbar = createSlice({
       };
       postData();
     },
-
+    creditTransaction(state,action){
+      const postThree = async () => {
+        const response = await fetch(`${state.trustedUser}/credits.json`, {
+          method: "PUT",
+          body: JSON.stringify(state.credits),
+        });
+        const data = await response.json();
+      };
+      postThree()
+    },
+    messageTransaction(state,action){
+      const postThree = async () => {
+        const response = await fetch(`${state.trustedUser}/messages.json`, {
+          method: "POST",
+          body: JSON.stringify(action.payload),
+        });
+        const data = await response.json();
+      };
+      postThree()
+    },
     blockChainTransaction(state, action) {
       const postData = async () => {
         const response = await fetch(`${state.trustedUser}/blockChain.json`, {
@@ -86,9 +119,17 @@ const navbar = createSlice({
         });
         const data = await response.json();
       };
+      const postFour = async () => {
+        const response = await fetch(`${state.trustedUser}/messages.json`, {
+          method: "PUT",
+          body: JSON.stringify(state.messages),
+        });
+        const data = await response.json();
+      };
       postData();
       postTwo();
       postThree();
+      postFour();
     },
 
     initDatabase(state, action) {
@@ -126,23 +167,6 @@ const navbar = createSlice({
           }),
         });
       };
-
-      // const postData = async () => {
-      //   const response = await fetch(
-      //     "https://noahnode-62cc0-default-rtdb.firebaseio.com/.json",
-      //     {
-      //       method: "PUT",
-      //       body: JSON.stringify({
-      //         blockChain: [{ proofOfWork: 0 }],
-      //         limbo: ["empty"],
-      //       }),
-      //     }
-      //   );
-      // };
-
-      {
-        state.blockChain !== [] && postData();
-      }
     },
   },
 });

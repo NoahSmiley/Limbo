@@ -10,9 +10,9 @@ const hashSlice = createSlice({
     hashValue: null,
     counter: 0,
     solved: false,
-    blockList:[],
-    miningStatus:"Standby",
-    hashRate:10,
+    blockList: [],
+    miningStatus: "Standby",
+    hashRate: 10,
   },
   reducers: {
     setHashValue(state, action) {

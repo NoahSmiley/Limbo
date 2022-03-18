@@ -1,4 +1,3 @@
-import React, { Fragment } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -12,12 +11,9 @@ import {
   Row,
   Layout,
 } from "antd";
-import { navBarActions } from "../../store/store";
 import {
   EyeInvisibleOutlined,
   EyeTwoTone,
-  ArrowDownOutlined,
-  ArrowUpOutlined,
 } from "@ant-design/icons";
 
 const { Header, Content } = Layout;
