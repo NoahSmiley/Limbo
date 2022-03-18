@@ -83,6 +83,7 @@ const navbar = createSlice({
           method: "PUT",
           body: JSON.stringify(state.credits),
         });
+        console.log(state.credits)
         const data = await response.json();
       };
       postThree()
@@ -193,9 +194,12 @@ const loading = createSlice({
 export const getBlockChain = (api) => {
   return async (dispatch) => {
     const getData = async () => {
-      const response = await fetch(`${api}.json`);
+      const response = await fetch(`${api}blockChain.json`);
+      const response2 = await fetch(`${api}messages.json`);
       const data = await response.json();
-      dispatch(navBarActions.setBlockChain(data.blockChain));
+      const data2 = await response2.json();
+      dispatch(navBarActions.setBlockChain(data));
+      dispatch(navBarActions.setMessages(data2));
     };
     await getData();
   };
