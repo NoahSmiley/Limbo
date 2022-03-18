@@ -52,7 +52,7 @@ function App() {
         const getData = async () => {
           const response = await fetch(`${apiValue}blockChain.json`);
           const response2 = await fetch(`${apiValue}limbo.json`);
-          const credits = await fetch(`${apiValue}credits.json`);
+          const userCredits = await fetch(`${apiValue}credits.json`);
           const messages = await fetch(`${apiValue}messages.json`);
           const trustedUser = await fetch(`${trusted}blockChain.json`);
           const trustedMessages = await fetch(`${trusted}messages.json`);
@@ -60,14 +60,12 @@ function App() {
           const data = await response.json();
           const data2 = await response2.json();
           const trustedData = await trustedUser.json();
-          const creditData = await credits.json();
+          const userCreditData = await userCredits.json();
           
           const messageData = await messages.json();
           const trustedMessageData = await trustedMessages.json();
 
           let blockList = [];
-          let messageList = [];
-
           for (const [key, value] of Object.entries(data)) {
             blockList.push({
               transaction: value.transaction,
@@ -82,13 +80,14 @@ function App() {
               text: value.text,
               time:value.time
             });
-            dispatch(navBarActions.setMessages(messageList));
           }
+          dispatch(navBarActions.setMessages(messageList));
         }
           blockList.reverse();
-
+          console.log(blockList)
           dispatch(hashSliceActions.setBlockList(blockList));
-          dispatch(navBarActions.setCredits(creditData));
+          dispatch(navBarActions.setCredits(userCreditData));
+
           if (data2 !== "") {
             dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));
@@ -106,7 +105,7 @@ function App() {
             postData();
           }
           if (localMessages.length < trustedMessageData.length) {
-            dispatch(navBarActions.setMessages(trustedMessageData));
+            dispatch(navBarActions.setMessages(localMessages));
             const postData = async () => {
               const response = await fetch(`${trusted}messages.json`, {
                 method: "PUT",
