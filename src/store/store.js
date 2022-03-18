@@ -6,7 +6,7 @@ const navbar = createSlice({
   name: "navbar",
   initialState: {
     navType: "login",
-    trustedUser: "https://noahnode-62cc0-default-rtdb.firebaseio.com/",
+    trustedUsers: ["https://noahnode-62cc0-default-rtdb.firebaseio.com/"],
     blockChain: [{ pow: 0 }],
     transaction: {},
     api: "",
@@ -36,6 +36,7 @@ const navbar = createSlice({
     },
     addCredit(state, action) {
       state.credits = state.credits += 1;
+      console.log("CALLED")
     },
     subCredit(state, action) {
       state.credits = state.credits -= 1;
@@ -56,7 +57,9 @@ const navbar = createSlice({
       state.limboFull = action.payload;
     },
     setLimbo(state, action) {
-      state.limbo = action.payload;
+      if(state.trustedUsers.indexOf(state.api)!==-1){
+        state.limbo = action.payload;
+      }
       if (state.limbo !== "") {
         state.limboFull = true;
       }
@@ -69,7 +72,7 @@ const navbar = createSlice({
     },
     limboTransaction(state, action) {
       const postData = async () => {
-        const response = await fetch(`${state.trustedUser}/limbo.json`, {
+        const response = await fetch(`${state.api}limbo.json`, {
           method: "PUT",
           body: JSON.stringify(state.transaction),
         });
@@ -79,7 +82,7 @@ const navbar = createSlice({
     },
     creditTransaction(state,action){
       const postThree = async () => {
-        const response = await fetch(`${state.trustedUser}/credits.json`, {
+        const response = await fetch(`${state.trustedUsers[0]}credits.json`, {
           method: "PUT",
           body: JSON.stringify(state.credits),
         });
@@ -90,7 +93,7 @@ const navbar = createSlice({
     },
     messageTransaction(state,action){
       const postThree = async () => {
-        const response = await fetch(`${state.trustedUser}/messages.json`, {
+        const response = await fetch(`${state.trustedUsers[0]}messages.json`, {
           method: "POST",
           body: JSON.stringify(action.payload),
         });
@@ -98,30 +101,40 @@ const navbar = createSlice({
       };
       postThree()
     },
+    updateMessages(state,action){
+      const postThree = async () => {
+        const response = await fetch(`${action.payload.api}messages.json`, {
+          method: "PUT",
+          body: JSON.stringify(action.payload.messages),
+        });
+        const data = await response.json();
+      };
+      postThree()
+    },
     blockChainTransaction(state, action) {
       const postData = async () => {
-        const response = await fetch(`${state.trustedUser}/blockChain.json`, {
+        const response = await fetch(`${state.trustedUsers[0]}blockChain.json`, {
           method: "POST",
           body: JSON.stringify(state.blockChain),
         });
         const data = await response.json();
       };
       const postTwo = async () => {
-        const response = await fetch(`${state.trustedUser}/limbo.json`, {
+        const response = await fetch(`${state.trustedUsers[0]}limbo.json`, {
           method: "PUT",
           body: JSON.stringify(state.limbo),
         });
         const data = await response.json();
       };
       const postThree = async () => {
-        const response = await fetch(`${state.trustedUser}/credits.json`, {
+        const response = await fetch(`${state.trustedUsers[0]}credits.json`, {
           method: "PUT",
           body: JSON.stringify(state.credits),
         });
         const data = await response.json();
       };
       const postFour = async () => {
-        const response = await fetch(`${state.trustedUser}/messages.json`, {
+        const response = await fetch(`${state.trustedUsers[0]}messages.json`, {
           method: "PUT",
           body: JSON.stringify(state.messages),
         });
