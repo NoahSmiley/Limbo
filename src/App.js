@@ -61,60 +61,69 @@ function App() {
           const data2 = await response2.json();
           const trustedData = await trustedUser.json();
           const userCreditData = await userCredits.json();
-          
+
           const messageData = await messages.json();
           const trustedMessageData = await trustedMessages.json();
 
+
           let blockList = [];
           for (const [key, value] of Object.entries(data)) {
-            blockList.push({
-              transaction: value.transaction,
-              timeStamp: value.stamp,
-            });
-          }
-          if (messageData){
-          let messageList = [];
-          for (const [key, value] of Object.entries(messageData)) {
-            messageList.push({
-              author: value.author,
-              text: value.text,
-              time:value.time
-            });
-          }
-          dispatch(navBarActions.setMessages(messageList));
-        }
+            console.log("Value in BlockLIST:",value)
+            if(value){
+              blockList.push({
+                transaction: value.transaction,
+                timeStamp: value.stamp,
+                action: value.action,
+              });
+            }
+            }
           blockList.reverse();
-          console.log(blockList)
+          console.log(blockList);
+
           dispatch(hashSliceActions.setBlockList(blockList));
           dispatch(navBarActions.setCredits(userCreditData));
+
+          if (messageData) {
+            let messageList = [];
+            for (const [key, value] of Object.entries(messageData)) {
+              messageList.push({
+                author: value.author,
+                text: value.text,
+                time: value.time,
+              });
+            }
+            dispatch(navBarActions.setMessages(messageList));
+          }
 
           if (data2 !== "") {
             dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));
           }
 
-          if (localMessages.length > trustedMessageData.length) {
-            dispatch(navBarActions.setMessages(trustedMessageData));
-            const postData = async () => {
-              const response = await fetch(`${apiValue}messages.json`, {
-                method: "PUT",
-                body: JSON.stringify(trustedMessageData),
-              });
-              const data = await response.json();
-            };
-            postData();
-          }
-          if (localMessages.length < trustedMessageData.length) {
-            dispatch(navBarActions.setMessages(localMessages));
-            const postData = async () => {
-              const response = await fetch(`${trusted}messages.json`, {
-                method: "PUT",
-                body: JSON.stringify(messageData),
-              });
-              const data = await response.json();
-            };
-            postData();
-          }
+          // if (localMessages.length > trustedMessageData.length) {
+          //   dispatch(navBarActions.setMessages(trustedMessageData));
+          //   const postData = async () => {
+          //     const response = await fetch(`${apiValue}messages.json`, {
+          //       method: "PUT",
+          //       body: JSON.stringify(trustedMessageData),
+          //     });
+          //     const data = await response.json();
+          //   };
+          //   postData();
+          // }
+
+          // if (localMessages.length < trustedMessageData.length) {
+          //   dispatch(navBarActions.setMessages(localMessages));
+          //   const postData = async () => {
+          //     const response = await fetch(`${trusted}messages.json`, {
+          //       method: "PUT",
+          //       body: JSON.stringify(messageData),
+          //     });
+          //     const data = await response.json();
+          //   };
+          //   postData();
+          // }
+
           if (Object.keys(data).length < Object.keys(trustedData).length) {
             dispatch(navBarActions.setBlockChain(trustedData));
             const postData = async () => {

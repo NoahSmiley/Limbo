@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 const MainStats = () => {
   
   let data = useSelector((state) => state.hashSlice.blockList);
-  console.log(data)
+
   const credits = useSelector((state) => state.navbar.credits);
 
   return (
