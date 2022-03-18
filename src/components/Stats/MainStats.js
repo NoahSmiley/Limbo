@@ -14,10 +14,11 @@ import { useSelector } from "react-redux";
 const MainStats = () => {
   
   let data = useSelector((state) => state.hashSlice.blockList);
-  
+  console.log(data)
   const credits = useSelector((state) => state.navbar.credits);
 
   return (
+    
     <Row gutter={16}>
       <Col span={12}>
         <Card>
@@ -54,8 +55,8 @@ const MainStats = () => {
         </Card>
       </Col>
       <Divider orientation="left">Block Ledger:</Divider>
-
-      <List
+      
+      {data.length!==0&&<List
         size="large"
         style={{ textAlign: "left" }}
         header={<div>Blocks:</div>}
@@ -78,7 +79,7 @@ const MainStats = () => {
             </Descriptions>
           </List.Item>
         )}
-      />
+      />}
     </Row>
   );
 };

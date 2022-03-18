@@ -19,7 +19,7 @@ function App() {
   const trusted = useSelector((state) => state.navbar.trustedUser);
   const credits = useSelector((state) => state.navbar.credits);
   const hashRate = useSelector((state) => state.hashSlice.hashRate);
-
+  const localMessages = useSelector((state) => state.navbar.messages);
   useEffect(() => {
     if (limboFull && !solved) {
       dispatch(hashSliceActions.setMiningStatus("Mining"));
@@ -50,51 +50,54 @@ function App() {
     const timer = setInterval(() => {
       if (loggedin === "loggedin") {
         const getData = async () => {
-          const response = await fetch(`${apiValue}/blockChain.json`);
-          const response2 = await fetch(`${apiValue}/limbo.json`);
-          const credits = await fetch(`${apiValue}/credits.json`);
-          const messages = await fetch(`${apiValue}/messages.json`);
-          const trustedUser = await fetch(`${trusted}/blockChain.json`);
-          const trustedMessages = await fetch(`${trusted}/messages.json`);
+          const response = await fetch(`${apiValue}blockChain.json`);
+          const response2 = await fetch(`${apiValue}limbo.json`);
+          const credits = await fetch(`${apiValue}credits.json`);
+          const messages = await fetch(`${apiValue}messages.json`);
+          const trustedUser = await fetch(`${trusted}blockChain.json`);
+          const trustedMessages = await fetch(`${trusted}messages.json`);
 
           const data = await response.json();
           const data2 = await response2.json();
           const trustedData = await trustedUser.json();
           const creditData = await credits.json();
-
+          
           const messageData = await messages.json();
           const trustedMessageData = await trustedMessages.json();
 
           let blockList = [];
           let messageList = [];
+
           for (const [key, value] of Object.entries(data)) {
             blockList.push({
               transaction: value.transaction,
               timeStamp: value.stamp,
             });
           }
-
+          if (messageData){
+          let messageList = [];
           for (const [key, value] of Object.entries(messageData)) {
             messageList.push({
               author: value.author,
               text: value.text,
               time:value.time
             });
+            dispatch(navBarActions.setMessages(messageList));
           }
-          console.log(trustedMessageData);
+        }
           blockList.reverse();
+
           dispatch(hashSliceActions.setBlockList(blockList));
           dispatch(navBarActions.setCredits(creditData));
-          dispatch(navBarActions.setMessages(messageList));
           if (data2 !== "") {
             dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));
           }
 
-          if (messageData.length < trustedMessageData.length) {
+          if (localMessages.length > trustedMessageData.length) {
             dispatch(navBarActions.setMessages(trustedMessageData));
             const postData = async () => {
-              const response = await fetch(`${apiValue}/messages.json`, {
+              const response = await fetch(`${apiValue}messages.json`, {
                 method: "PUT",
                 body: JSON.stringify(trustedMessageData),
               });
@@ -102,10 +105,10 @@ function App() {
             };
             postData();
           }
-          if (messageData.length > trustedMessageData.length) {
+          if (localMessages.length < trustedMessageData.length) {
             dispatch(navBarActions.setMessages(trustedMessageData));
             const postData = async () => {
-              const response = await fetch(`${trusted}/messages.json`, {
+              const response = await fetch(`${trusted}messages.json`, {
                 method: "PUT",
                 body: JSON.stringify(messageData),
               });
@@ -116,7 +119,7 @@ function App() {
           if (Object.keys(data).length < Object.keys(trustedData).length) {
             dispatch(navBarActions.setBlockChain(trustedData));
             const postData = async () => {
-              const response = await fetch(`${apiValue}/blockChain.json`, {
+              const response = await fetch(`${apiValue}blockChain.json`, {
                 method: "PUT",
                 body: JSON.stringify(blockChain),
               });

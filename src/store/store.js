@@ -6,7 +6,7 @@ const navbar = createSlice({
   name: "navbar",
   initialState: {
     navType: "login",
-    trustedUser: "https://noahnode-62cc0-default-rtdb.firebaseio.com",
+    trustedUser: "https://noahnode-62cc0-default-rtdb.firebaseio.com/",
     blockChain: [{ pow: 0 }],
     transaction: {},
     api: "",
@@ -16,7 +16,7 @@ const navbar = createSlice({
     credits: null,
     modal: true,
     userName: "",
-    messages: [],
+    messages: []
   },
   reducers: {
     addMessage(state, action) {
@@ -133,43 +133,51 @@ const navbar = createSlice({
     },
 
     initDatabase(state, action) {
-      const Bits = 256;
-
+      console.log(action.payload)
+      const Bits = 512;
       const PrivateKey = cryptico.generateRSAKey(action.payload.password, Bits);
       const PublicKey = cryptico.publicKeyString(PrivateKey);
 
-      const PlainText =
-        "Matt, I need you to help me with my Starcraft strategy.";
-      const EncryptionResult = cryptico.encrypt(PlainText, PublicKey);
+      // const PlainText =
+      //   "Matt, I need you to help me with my Starcraft strategy.";
+      // const EncryptionResult = cryptico.encrypt(PlainText, PublicKey);
 
-      const DecryptionResult = cryptico.decrypt(
-        EncryptionResult.cipher,
-        PrivateKey
-      );
+      // const DecryptionResult = cryptico.decrypt(
+      //   EncryptionResult.cipher,
+      //   PrivateKey
+      // );
 
       state.transaction = {
         username: action.payload.username,
         publicKey: PublicKey,
         action: "Account Creation",
       };
-      state.api = action.payload.api;
 
-      const postData = async () => {
+      state.api = action.payload.api;
+      console.log("HERE IN INIT"+action.payload.api)
+      const postInit = async () => {
         const response = await fetch(`${action.payload.api}.json`, {
           method: "PUT",
           body: JSON.stringify({
             username: action.payload.username,
             limbo: [],
             publicKey: PublicKey,
-            trustedUsers: state.trustedUsers,
+            trustedUser: state.trustedUser,
             blockChain: state.blockChain,
             credits: 25,
+            messages:""
           }),
+          
         });
+        const data = await response.json();
+        console.log(data)
       };
+      
+      postInit()
     },
   },
 });
+
 const loading = createSlice({
   name: "loader",
   initialState: {
@@ -185,10 +193,9 @@ const loading = createSlice({
 export const getBlockChain = (api) => {
   return async (dispatch) => {
     const getData = async () => {
-      const response = await fetch(api);
+      const response = await fetch(`${api}.json`);
       const data = await response.json();
-      console.log(data);
-      dispatch(navBarActions.setBlockChain(data));
+      dispatch(navBarActions.setBlockChain(data.blockChain));
     };
     await getData();
   };
