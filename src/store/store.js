@@ -16,7 +16,7 @@ const navbar = createSlice({
     credits: null,
     modal: true,
     userName: "",
-    messages: []
+    messages: [],
   },
   reducers: {
     addMessage(state, action) {
@@ -36,7 +36,7 @@ const navbar = createSlice({
     },
     addCredit(state, action) {
       state.credits = state.credits += 1;
-      console.log("CALLED")
+      console.log("CALLED");
     },
     subCredit(state, action) {
       state.credits = state.credits -= 1;
@@ -57,7 +57,7 @@ const navbar = createSlice({
       state.limboFull = action.payload;
     },
     setLimbo(state, action) {
-      if(state.trustedUsers.indexOf(state.api)!==-1){
+      if (state.trustedUsers.indexOf(state.api) !== -1) {
         state.limbo = action.payload;
       }
       if (state.limbo !== "") {
@@ -72,7 +72,7 @@ const navbar = createSlice({
     },
     limboTransaction(state, action) {
       const postData = async () => {
-        const response = await fetch(`${state.api}limbo.json`, {
+        const response = await fetch(`${state.trustedUsers[0]}limbo.json`, {
           method: "PUT",
           body: JSON.stringify(state.transaction),
         });
@@ -80,18 +80,18 @@ const navbar = createSlice({
       };
       postData();
     },
-    creditTransaction(state,action){
+    creditTransaction(state, action) {
       const postThree = async () => {
         const response = await fetch(`${state.trustedUsers[0]}credits.json`, {
           method: "PUT",
           body: JSON.stringify(state.credits),
         });
-        console.log(state.credits)
+        console.log(state.credits);
         const data = await response.json();
       };
-      postThree()
+      postThree();
     },
-    messageTransaction(state,action){
+    messageTransaction(state, action) {
       const postThree = async () => {
         const response = await fetch(`${state.trustedUsers[0]}messages.json`, {
           method: "POST",
@@ -99,9 +99,9 @@ const navbar = createSlice({
         });
         const data = await response.json();
       };
-      postThree()
+      postThree();
     },
-    updateMessages(state,action){
+    updateMessages(state, action) {
       const postThree = async () => {
         const response = await fetch(`${action.payload.api}messages.json`, {
           method: "PUT",
@@ -109,14 +109,17 @@ const navbar = createSlice({
         });
         const data = await response.json();
       };
-      postThree()
+      postThree();
     },
     blockChainTransaction(state, action) {
       const postData = async () => {
-        const response = await fetch(`${state.trustedUsers[0]}blockChain.json`, {
-          method: "POST",
-          body: JSON.stringify(state.blockChain),
-        });
+        const response = await fetch(
+          `${state.trustedUsers[0]}blockChain.json`,
+          {
+            method: "POST",
+            body: JSON.stringify(state.blockChain),
+          }
+        );
         const data = await response.json();
       };
       const postTwo = async () => {
@@ -125,6 +128,7 @@ const navbar = createSlice({
           body: JSON.stringify(state.limbo),
         });
         const data = await response.json();
+        console.log("Pushed to LIMBO TRUSTED", data);
       };
       const postThree = async () => {
         const response = await fetch(`${state.trustedUsers[0]}credits.json`, {
@@ -147,7 +151,7 @@ const navbar = createSlice({
     },
 
     initDatabase(state, action) {
-      console.log(action.payload)
+      console.log(action.payload);
       const Bits = 512;
       const PrivateKey = cryptico.generateRSAKey(action.payload.password, Bits);
       const PublicKey = cryptico.publicKeyString(PrivateKey);
@@ -168,7 +172,7 @@ const navbar = createSlice({
       };
 
       state.api = action.payload.api;
-      console.log("HERE IN INIT"+action.payload.api)
+      console.log("HERE IN INIT" + action.payload.api);
       const postInit = async () => {
         const response = await fetch(`${action.payload.api}.json`, {
           method: "PUT",
@@ -179,15 +183,14 @@ const navbar = createSlice({
             trustedUser: state.trustedUser,
             blockChain: state.blockChain,
             credits: 25,
-            messages:""
+            messages: "",
           }),
-          
         });
         const data = await response.json();
-        console.log(data)
+        console.log(data);
       };
-      
-      postInit()
+
+      postInit();
     },
   },
 });

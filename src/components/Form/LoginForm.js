@@ -20,7 +20,6 @@ const LoginForm = () => {
     },
     onSubmit: (value) => {
       navigate("/connected");
-      console.log(value.username)
       dispatch(navBarActions.setAPI(value.api))
       dispatch(navBarActions.setUserName(value.username))
       dispatch(navBarActions.changeNav("loggedin"));

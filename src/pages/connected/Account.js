@@ -24,7 +24,6 @@ const Account = () => {
       password: "",
     },
     onSubmit: (value) => {
-      console.log(value);
     },
     validationSchema: Yup.object({
       username: Yup.string(),

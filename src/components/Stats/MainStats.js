@@ -16,7 +16,7 @@ const MainStats = () => {
   let data = useSelector((state) => state.hashSlice.blockList);
 
   const credits = useSelector((state) => state.navbar.credits);
-
+  const hashRate = useSelector((state)=>state.hashSlice.hashRate)
   return (
     
     <Row gutter={16}>
@@ -36,7 +36,7 @@ const MainStats = () => {
             title="Credit Increase"
             value={0}
             precision={2}
-            valueStyle={{ color: "#3f8600" }}
+            // valueStyle={hashRate.status==="dec"?{color: "#cf1322"}:{color: "#3f8600"}}
             prefix={<ArrowUpOutlined />}
             suffix="%"
           />
@@ -46,10 +46,10 @@ const MainStats = () => {
         <Card>
           <Statistic
             title="Current Hash Rate"
-            value={10}
+            value={hashRate.rate}
             precision={2}
-            valueStyle={{ color: "#cf1322" }}
-            prefix={<ArrowDownOutlined />}
+            valueStyle={hashRate.status==="dec"?{color: "#cf1322"}:{color: "#3f8600"}}
+            prefix={hashRate.status==="dec"?<ArrowDownOutlined />:<ArrowUpOutlined />}
             suffix="ms"
           />
         </Card>

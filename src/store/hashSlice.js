@@ -12,14 +12,23 @@ const hashSlice = createSlice({
     solved: false,
     blockList: [],
     miningStatus: "Standby",
-    hashRate: 10,
+    hashRate: {status:"",rate:10},
   },
   reducers: {
     setHashValue(state, action) {
       state.hashValue = action.payload;
     },
     setHashRate(state, action) {
-      state.hashRate = action.payload;
+      if (state.hashRate.rate>action.payload){
+        state.hashRate = {rate:action.payload,status:"dec"};
+      } 
+      if (state.hashRate.rate<action.payload){
+        state.hashRate = {rate:action.payload,status:"inc"};
+      } 
+      else{
+        state.hashRate = {rate:action.payload,status:state.hashRate.status};
+      } 
+      
     },
     setMiningStatus(state, action) {
       state.miningStatus = action.payload;
@@ -41,10 +50,8 @@ const hashSlice = createSlice({
           }
         }
         const zeros = "".padStart(Number(9), "0");
-        console.log(strings);
         if (strings[0].slice(0, 9) === zeros) {
           console.log("solved");
-          console.log(hashValue);
           state.solved = true;
         }
       };

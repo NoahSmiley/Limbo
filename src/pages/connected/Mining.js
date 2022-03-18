@@ -13,11 +13,12 @@ const Mining = () => {
   }
   const formik = useFormik({
     initialValues: {
-      hashRate: hashRate,
+      hashRate: hashRate.rate,
     },
     onSubmit: (value) => {
       dispatch(hashSliceActions.setHashRate(value.hashRate));
       console.log(value.hashRate)
+      console.log("ACTUAL STATE",hashRate)
     },
     validationSchema: Yup.object({
       hashRate: Yup.string(),
@@ -65,7 +66,7 @@ const Mining = () => {
                 >
                   <Slider
                     id="hashRate"
-                    defaultValue={hashRate}
+                    defaultValue={hashRate.rate}
                     onChange={(value) =>
                       formik.setFieldValue("hashRate", value)
                     }

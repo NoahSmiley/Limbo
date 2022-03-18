@@ -42,10 +42,10 @@ const LoggedIn = () => {
         Feed
         <Link to="/feed" />
       </Menu.Item>
-      <Menu.Item key="3" icon={<TeamOutlined />}>
+      {/* <Menu.Item key="3" icon={<TeamOutlined />}>
         Account
         <Link to="/account" />
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item key="8" icon={<ExperimentOutlined />}>
         Hash Lab
         <Link to="/lab" />

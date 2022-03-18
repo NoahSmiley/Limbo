@@ -20,13 +20,12 @@ function App() {
   const hashRate = useSelector((state) => state.hashSlice.hashRate);
   const localMessages = useSelector((state) => state.navbar.messages);
   const trustedUsers = useSelector((state) => state.navbar.trustedUsers);
-  console.log(trustedUsers.indexOf(apiValue))
   useEffect(() => {
     if (limboFull && !solved) {
       dispatch(hashSliceActions.setMiningStatus("Mining"));
       const newTimer = setInterval(() => {
         dispatch(hashSliceActions.mine(limbo));
-      }, 10 * hashRate);
+      }, 10 * hashRate.rate);
       return () => clearTimeout(newTimer);
     }
   }, [limboFull, dispatch, limbo, solved, hashValue,hashRate]);
@@ -61,12 +60,24 @@ function App() {
           const data2 = await response2.json();
           const trustedData = await trustedUser.json();
           const userCreditData = await userCredits.json();
-          console.log(trustedData)
           const messageData = await messages.json();
           const trustedMessageData = await trustedMessages.json();
 
 
           let blockList = [];
+          console.log("HERE IS VALUE")
+
+          if (Object.keys(data).length < Object.keys(trustedData).length) {
+            dispatch(navBarActions.setBlockChain(trustedData));
+            const postData = async () => {
+              const response = await fetch(`${apiValue}blockChain.json`, {
+                method: "PUT",
+                body: JSON.stringify(blockChain),
+              });
+              const data = await response.json();
+            };
+            postData();
+          }
           for (const [key, value] of Object.entries(data)) {
             if(value.transaction.action&&value.transaction&&value.stamp){
               blockList.push({
@@ -93,33 +104,20 @@ function App() {
                 time: value.time,
               });
             }
-            console.log("LOCAL",localMessages)
-            console.log("TRUSTED",trustedMessageData)
+            
             dispatch(navBarActions.setMessages(messageList));
           }
-
           if (data2 !== ""&& trustedUsers.indexOf(apiValue)!==-1) {
             dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));
           }
-          if (Object.keys(data).length < Object.keys(trustedData).length) {
-            console.log("HERE")
-            dispatch(navBarActions.setBlockChain(trustedData));
-            const postData = async () => {
-              const response = await fetch(`${apiValue}blockChain.json`, {
-                method: "PUT",
-                body: JSON.stringify(blockChain),
-              });
-              const data = await response.json();
-            };
-            postData();
-          }
+          
         };
         getData();
       }
     }, 5000);
     return () => clearTimeout(timer);
-  }, [limboFull, dispatch, blockChain, apiValue, loggedin, limbo, trusted,trustedUsers]);
+  }, [limboFull, dispatch, blockChain, apiValue, loggedin, limbo, trusted,trustedUsers,localMessages]);
 
   return (
     <div className="App">
