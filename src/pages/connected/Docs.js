@@ -25,7 +25,7 @@ const Docs = () => {
           Our application is based on using a blockchain to store data. To store new data on a blockchain
           we need to go through a process called mining. To make this process happen we need to verify 
           data prior to adding or minting to the blockchain. In order to ensure this gets done quickly 
-          we inlist help form the users via the node desktop application. This is the application needed
+          we enlist help form the users via the node desktop application. This is the application needed
           for users to create their accounts and add to their list of post credits. These two things are 
           simply an incentive for users to help us provide decentralization and security.
         </Card>
@@ -37,9 +37,9 @@ const Docs = () => {
           Blockchains have recently become a buzz word with the rise of cryptocurrencies. 
           However, blockchains are not limited to cryptocurrencies they are simply a way of 
           storing data. We use blockchains as a way maintaining mutual power between all users.
-          We found this a necessity to eleminate the posibility of rouge administrators, third
-          party tampering, and other power heiarchys. Blockchain does this by being imumtable,
-          meaning that data once on the blockchain cannot be alterd or deleted. Therefore, if 
+          We found this a necessity to eliminate the possibility of rouge administrators, third
+          party tampering, and other power hierarchies. Blockchain does this by being immutable,
+          meaning that data once on the blockchain cannot be altered or deleted. Therefore, if 
           a user is to do any action that needs to be added to the blockchain such as making
           a post it cannot be erased.
         </Card>
@@ -54,8 +54,8 @@ const Docs = () => {
           our team would enjoy adding is a voting system so posts can be regulated by the community 
           itself. This voting functionality would likely have to overwrite the data already on the 
           blockchain as blockchains are immutable (the data can't be deleted). Another function we 
-          could eventually provide is private communities or group messaging. This would alllow for 
-          users to communicate within groups like how Discord provides messaging within chanels.
+          could eventually provide is private communities or group messaging. This would allow for 
+          users to communicate within groups like how Discord provides messaging within channels.
           
         </Card>
       </Card>
