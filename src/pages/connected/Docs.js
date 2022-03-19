@@ -22,7 +22,12 @@ const Docs = () => {
           type="inner"
           title="How our Application Works"
         >
-          This application is 
+          Our application is based on using a blockchain to store data. To store new data on a blockchain
+          we need to go through a process called mining. To make this process happen we need to verify 
+          data prior to adding or minting to the blockchain. In order to ensure this gets done quickly 
+          we inlist help form the users via the node desktop application. This is the application needed
+          for users to create their accounts and add to their list of post credits. These two things are 
+          simply an incentive for users to help us provide decentralization and security.
         </Card>
         <Card
           style={{ marginTop: 16 }}
@@ -43,7 +48,15 @@ const Docs = () => {
           type="inner"
           title="Future Functions"
         >
-          This application is 
+          This application is currently very similar to other social medias. However, there is 
+          plenty of room for new functions that will allow our users to further connect with
+          one another and enjoy themselves while using Mevo. A future quality of life function
+          our team would enjoy adding is a voting system so posts can be regulated by the community 
+          itself. This voting functionality would likely have to overwrite the data already on the 
+          blockchain as blockchains are immutable (the data can't be deleted). Another function we 
+          could eventually provide is private communities or group messaging. This would alllow for 
+          users to communicate within groups like how Discord provides messaging within chanels.
+          
         </Card>
       </Card>
       ,
