@@ -42,6 +42,12 @@ const Docs = () => {
           meaning that data once on the blockchain cannot be altered or deleted. Therefore, if 
           a user is to do any action that needs to be added to the blockchain such as making
           a post it cannot be erased.
+
+          <img src="images/ERDia.png"/>
+          In this image you can see how we set up our blockchin in order to store your data. 
+          As you can see each block has a unique header holding the previous blocks hash, a timestamp,
+          and a hash of the current blocks data. These blockheaders allow us to identify diferent blocks 
+          and display times in which data was updated.
         </Card>
         <Card
           style={{ marginTop: 16 }}
