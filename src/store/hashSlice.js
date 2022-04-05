@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import _default from "antd/lib/time-picker";
 import sha256 from "crypto-js/sha256";
-import { useEffect } from "react";
-
 const hashSlice = createSlice({
   name: "hashSlice",
   initialState: {
@@ -12,23 +9,24 @@ const hashSlice = createSlice({
     solved: false,
     blockList: [],
     miningStatus: "Standby",
-    hashRate: {status:"",rate:10},
+    hashRate: { status: "", rate: 10 },
   },
   reducers: {
     setHashValue(state, action) {
       state.hashValue = action.payload;
     },
     setHashRate(state, action) {
-      if (state.hashRate.rate>action.payload){
-        state.hashRate = {rate:action.payload,status:"dec"};
-      } 
-      if (state.hashRate.rate<action.payload){
-        state.hashRate = {rate:action.payload,status:"inc"};
-      } 
-      else{
-        state.hashRate = {rate:action.payload,status:state.hashRate.status};
-      } 
-      
+      if (state.hashRate.rate > action.payload) {
+        state.hashRate = { rate: action.payload, status: "dec" };
+      }
+      if (state.hashRate.rate < action.payload) {
+        state.hashRate = { rate: action.payload, status: "inc" };
+      } else {
+        state.hashRate = {
+          rate: action.payload,
+          status: state.hashRate.status,
+        };
+      }
     },
     setMiningStatus(state, action) {
       state.miningStatus = action.payload;

@@ -10,13 +10,13 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
     height: 768,
-    minHeight: 900,
-    minWidth: 700,
+    minHeight: 600,
+    minWidth: 600,
     show: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
-    },
+    }
   });
 
   win.once("ready-to-show", () => {

@@ -82,7 +82,7 @@ const navbar = createSlice({
     },
     creditTransaction(state, action) {
       const postThree = async () => {
-        const response = await fetch(`${state.trustedUsers[0]}credits.json`, {
+        const response = await fetch(`${state.api}credits.json`, {
           method: "PUT",
           body: JSON.stringify(state.credits),
         });
@@ -170,7 +170,6 @@ const navbar = createSlice({
         publicKey: PublicKey,
         action: "Account Creation",
       };
-
       state.api = action.payload.api;
       console.log("HERE IN INIT" + action.payload.api);
       const postInit = async () => {

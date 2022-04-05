@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Form, Button, Col, Card, Statistic, Row, Layout, Slider } from "antd";
@@ -17,8 +17,8 @@ const Mining = () => {
     },
     onSubmit: (value) => {
       dispatch(hashSliceActions.setHashRate(value.hashRate));
-      console.log(value.hashRate)
-      console.log("ACTUAL STATE",hashRate)
+      console.log(value.hashRate);
+      console.log("ACTUAL STATE", hashRate);
     },
     validationSchema: Yup.object({
       hashRate: Yup.string(),

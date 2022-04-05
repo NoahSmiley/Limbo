@@ -1,20 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  Form,
-  Input,
-  Button,
-  Divider,
-  Col,
-  Card,
-  Statistic,
-  Row,
-  Layout,
-} from "antd";
-import {
-  EyeInvisibleOutlined,
-  EyeTwoTone,
-} from "@ant-design/icons";
+import { Form, Input, Button, Col, Card, Statistic, Row, Layout } from "antd";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 const { Header, Content } = Layout;
 const Account = () => {
@@ -23,8 +10,7 @@ const Account = () => {
       username: "",
       password: "",
     },
-    onSubmit: (value) => {
-    },
+    onSubmit: (value) => {},
     validationSchema: Yup.object({
       username: Yup.string(),
       password: Yup.string(),
@@ -37,7 +23,10 @@ const Account = () => {
 
   return (
     <div style={{ marginTop: "-10%", background: "white" }}>
-      <Header className="site-layout-background" style={{ fontSize: "20px",marginBottom:"2%" }}>
+      <Header
+        className="site-layout-background"
+        style={{ fontSize: "20px", marginBottom: "2%" }}
+      >
         <p>
           <b>Account</b>
           Manager
@@ -49,7 +38,6 @@ const Account = () => {
             <Statistic title="Current Credits (Lim)" value={3} />
           </Card>
         </Col>
-
         <Col span={12}>
           <Card>
             <Form

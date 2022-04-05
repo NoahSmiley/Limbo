@@ -16,7 +16,6 @@ function App() {
   const solved = useSelector((state) => state.hashSlice.solved);
   const hashValue = useSelector((state) => state.hashSlice.hashValue);
   const trusted = useSelector((state) => state.navbar.trustedUsers);
-  const credits = useSelector((state) => state.navbar.credits);
   const hashRate = useSelector((state) => state.hashSlice.hashRate);
   const localMessages = useSelector((state) => state.navbar.messages);
   const trustedUsers = useSelector((state) => state.navbar.trustedUsers);
@@ -104,14 +103,12 @@ function App() {
                 time: value.time,
               });
             }
-            
             dispatch(navBarActions.setMessages(messageList));
           }
           if (data2 !== ""&& trustedUsers.indexOf(apiValue)!==-1) {
             dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));
           }
-          
         };
         getData();
       }

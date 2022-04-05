@@ -7,7 +7,6 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { navBarActions } from "../../store/store";
 import { getBlockChain } from "../../store/store";
-import { PoweroffOutlined } from "@ant-design/icons";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -33,6 +32,7 @@ const SignUpForm = () => {
         dispatch(navBarActions.limboTransaction());
         dispatch(navBarActions.changeNav("loggedin"));
         navigate("/connected");
+        dispatch(navBarActions.setUserName(value.username))
       }
     },
     validationSchema: Yup.object({
