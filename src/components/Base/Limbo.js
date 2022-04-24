@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import NaviBar from "../Navbar/NaviBar";
 
 import SignUp from "../../pages/disconnected/SignUp";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useNavigate} from "react-router-dom";
 import Login from "../../pages/disconnected/Login";
 import HomePage from "../../pages/disconnected/HomePage";
 import Connected from "../../pages/connected/Connected";

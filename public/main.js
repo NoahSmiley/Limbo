@@ -23,16 +23,16 @@ function createWindow() {
 
   win.show();
 
-  // win.loadURL(
-  //   isDev
-  //     ? "http://localhost:3000"
-  //     : `file://${path.join(__dirname, "../build/index.html")}`
-  // );
   win.loadURL(
     isDev
-      ? `file://${path.join(__dirname, "../build/index.html")}`
+      ? "http://localhost:3000"
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
+  // win.loadURL(
+  //   isDev
+  //     ? `file://${path.join(__dirname, "../build/index.html")}`
+  //     : `file://${path.join(__dirname, "../build/index.html")}`
+  // );
 }
 
 // Quit when all windows are closed.
