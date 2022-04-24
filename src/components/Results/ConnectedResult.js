@@ -1,5 +1,6 @@
 import React from "react";
-import { Result, Button } from "antd";
+import { Result} from "antd";
+
 const ConnectedResult = () => {
   return (
     <div

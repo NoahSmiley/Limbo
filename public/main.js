@@ -5,6 +5,8 @@ const isDev = require("electron-is-dev");
 
 require("@electron/remote/main").initialize();
 
+app.on("ready", createWindow);
+
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
@@ -16,21 +18,22 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
-    }
+    },
   });
 
-  win.once("ready-to-show", () => {
-    win.show();
-  });
+  win.show();
 
+  // win.loadURL(
+  //   isDev
+  //     ? "http://localhost:3000"
+  //     : `file://${path.join(__dirname, "../build/index.html")}`
+  // );
   win.loadURL(
     isDev
-      ? "http://localhost:3000"
+      ? `file://${path.join(__dirname, "../build/index.html")}`
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
 }
-
-app.on("ready", createWindow);
 
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {

@@ -5,6 +5,7 @@ import Limbo from "./components/Base/Limbo";
 import { useSelector, useDispatch } from "react-redux";
 import { navBarActions } from "./store/store";
 import { hashSliceActions } from "./store/hashSlice";
+import HomePage from "./pages/disconnected/HomePage";
 function App() {
   const dispatch = useDispatch();
 
@@ -27,7 +28,7 @@ function App() {
       }, 10 * hashRate.rate);
       return () => clearTimeout(newTimer);
     }
-  }, [limboFull, dispatch, limbo, solved, hashValue,hashRate]);
+  }, [limboFull, dispatch, limbo, solved, hashValue, hashRate]);
 
   useEffect(() => {
     if (limboFull && solved && limbo !== "") {
@@ -54,7 +55,7 @@ function App() {
           const messages = await fetch(`${apiValue}messages.json`);
           const trustedUser = await fetch(`${trusted[0]}blockChain.json`);
           const trustedMessages = await fetch(`${trusted[0]}messages.json`);
-          
+
           const data = await response.json();
           const data2 = await response2.json();
           const trustedData = await trustedUser.json();
@@ -62,9 +63,8 @@ function App() {
           const messageData = await messages.json();
           const trustedMessageData = await trustedMessages.json();
 
-
           let blockList = [];
-          console.log("HERE IS VALUE")
+          console.log("HERE IS VALUE");
 
           if (Object.keys(data).length < Object.keys(trustedData).length) {
             dispatch(navBarActions.setBlockChain(trustedData));
@@ -78,21 +78,26 @@ function App() {
             postData();
           }
           for (const [key, value] of Object.entries(data)) {
-            if(value.transaction.action&&value.transaction&&value.stamp){
+            if (value.transaction.action && value.transaction && value.stamp) {
               blockList.push({
                 transaction: value.transaction,
                 timeStamp: value.stamp,
                 action: value.transaction.action,
               });
             }
-            }
+          }
           blockList.reverse();
 
           dispatch(hashSliceActions.setBlockList(blockList));
           dispatch(navBarActions.setCredits(userCreditData));
-          if (localMessages.length!==Object.keys(trustedMessageData).length){
-            if (localMessages.length===0){
-              dispatch(navBarActions.updateMessages({api:apiValue,messages:trustedMessageData}))
+          if (localMessages.length !== Object.keys(trustedMessageData).length) {
+            if (localMessages.length === 0) {
+              dispatch(
+                navBarActions.updateMessages({
+                  api: apiValue,
+                  messages: trustedMessageData,
+                })
+              );
             }
             // dispatch(navBarActions.setMessages(trustedMessageData))
             let messageList = [];
@@ -105,7 +110,7 @@ function App() {
             }
             dispatch(navBarActions.setMessages(messageList));
           }
-          if (data2 !== ""&& trustedUsers.indexOf(apiValue)!==-1) {
+          if (data2 !== "" && trustedUsers.indexOf(apiValue) !== -1) {
             dispatch(navBarActions.setLimbo(data2));
             dispatch(navBarActions.setLimboFull(true));
           }
@@ -114,7 +119,17 @@ function App() {
       }
     }, 5000);
     return () => clearTimeout(timer);
-  }, [limboFull, dispatch, blockChain, apiValue, loggedin, limbo, trusted,trustedUsers,localMessages]);
+  }, [
+    limboFull,
+    dispatch,
+    blockChain,
+    apiValue,
+    loggedin,
+    limbo,
+    trusted,
+    trustedUsers,
+    localMessages,
+  ]);
 
   return (
     <div className="App">

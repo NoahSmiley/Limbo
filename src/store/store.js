@@ -97,7 +97,7 @@ const navbar = createSlice({
           method: "POST",
           body: JSON.stringify(action.payload),
         });
-        const data = await response.json();
+        // const data = await response.json();
       };
       postThree();
     },
@@ -121,6 +121,7 @@ const navbar = createSlice({
           }
         );
         const data = await response.json();
+        
       };
       const postTwo = async () => {
         const response = await fetch(`${state.trustedUsers[0]}limbo.json`, {

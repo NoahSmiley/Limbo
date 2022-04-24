@@ -1,21 +1,16 @@
 import {
-  TeamOutlined,
-  FileOutlined,
-  CalculatorOutlined,
   BlockOutlined,
-  UserDeleteOutlined,
   RiseOutlined,
-  ToTopOutlined,
   PoweroffOutlined,
   FileDoneOutlined,
   ExperimentOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import { Menu, Badge, Space } from "antd";
+import { Menu, Badge} from "antd";
 import { Link } from "react-router-dom";
 
 const LoggedIn = () => {
-  const credits = useSelector((state)=>state.navbar.credits)
+  const credits = useSelector((state) => state.navbar.credits);
   return (
     <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
       <Menu.Item key="1" icon={<RiseOutlined />}>
